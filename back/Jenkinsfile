@@ -11,7 +11,7 @@ node {
 		unstash 'working-copy'
 		def mvnHome = tool 'maven'
 		sh "${mvnHome}/bin/mvn -f back/pom.xml test"		
-		junit '**/target/*.xml'
+		junit '**/target/**/*.xml'
 	}
 
 	stage ('Package') {
