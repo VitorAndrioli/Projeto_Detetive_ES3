@@ -1,7 +1,7 @@
 node {
 	stage ('Compile') {
 		checkout scm
-		def mvnHome = tool 'maven-3'
+		def mvnHome = tool 'maven'
 		sh "${mvnHome}/bin/mvn clean install"
 		stash 'working-copy'
 	}
