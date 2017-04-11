@@ -3,7 +3,7 @@ set -x
 set -e
 set -o errexit
 
-MVN_VERSION=$(mvn -q \
+MVN_VERSION=$(mvn -f back/pom.xml -q \
     -Dexec.executable="echo" \
     -Dexec.args='${project.version}' \
     --non-recursive \
