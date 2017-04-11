@@ -1,4 +1,6 @@
 #!/bin/sh
+set -x
+set -e
 set -o errexit
 
 MVN_VERSION=$(mvn -q \
