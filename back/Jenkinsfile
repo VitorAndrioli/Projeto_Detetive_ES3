@@ -24,6 +24,6 @@ node {
 
 	stage('Deploy') {
 		echo "Deploying..."
-		sh "cp back/target/detetive*.jar /opt/detetive/"
+		sh "back/install.sh"
 	}
 }
