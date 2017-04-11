@@ -8,4 +8,4 @@ MVN_VERSION=$(mvn -f back/pom.xml -q \
     -Dexec.args='${project.version}' \
     --non-recursive \
     org.codehaus.mojo:exec-maven-plugin:1.3.1:exec)
-/var/lib/jenkins/install-detetive.sh ${WORKSPACE} ${MVN_VERSION}    
+sudo /var/lib/jenkins/install-detetive.sh ${WORKSPACE} ${MVN_VERSION}    
