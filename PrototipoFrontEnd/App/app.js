@@ -1,0 +1,1 @@
+var detetiveApp = angular.module('DetetiveApp',['NgSwitchery']);

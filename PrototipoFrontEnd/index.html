@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Detetive App</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="CSS/detetive.css" />
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+        <link rel="stylesheet" href="bower_components/switchery/dist/switchery.css"/>
+    </head>
+    <body ng-app="DetetiveApp" ng-cloak ng-controller="PartidaController">
+
+        <div class="row">
+            <div class="col-lg-9">
+
+                <table class="tabuleiro">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="col-lg-3">
+                <div id="divCartas">
+                    <div class="avatar">
+                        <img src="Imagens/Personagens/Perfil/Coronel_Mostarda.png" class="img-responsive img-circle" alt="Coronel mostarda">
+                        <span>Coronel Mostarda</span>
+                    </div>
+                    <div class="conteudo_cartas flexcroll">
+                        					<table class="table table_cartas">
+                        <tr>
+                            <td colspan="2" class="titulo_cartas">Suspeitos</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="per_tit">Cel.<span>
+                                 <span class="per_nome">Mostarda</span
+                            </td>
+                            <td>
+                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="per_tit">Prof.<span>
+                                 <span class="per_nome">Black</span
+                            </td>
+                            <td>
+                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="per_tit">Dona<span>
+                                 <span class="per_nome">Violeta</span
+                            </td>
+                            <td>
+                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/>
+                            </td>
+                         <tr>
+                            <td>
+                                <span class="per_tit">Sr.<span>
+                                 <span class="per_nome">Marinho</span
+                            </td>
+                            <td>
+                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="per_tit">Srta.<span>
+                                 <span class="per_nome">Rosa</span
+                            </td>
+                            <td>
+                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="per_tit">Dona<span>
+                                 <span class="per_nome">Branca</span
+                            </td>
+                            <td>
+                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/>
+                            </td>
+                        </tr>
+                    </table>
+                                        <table class="table table_cartas">
+                        <tr>
+                            <td colspan="2" class="titulo_cartas">Armas
+                        <tr>
+                            <td>Punhal</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        <tr>
+                            <td>Castiçal</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        <tr>
+                            <td>Revólver</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        <tr>
+                            <td>Corda</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        <tr>
+                            <td>Cano</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        <tr>
+                            <td>Chave Inglesa</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        </table>
+                    <table class="table table_cartas">
+                        <tr>
+                            <td colspan="2" class="titulo_cartas">Aposentos</td>
+                        </tr>
+                        <tr>
+                            <td>Hall</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        <tr>
+                            <td>Sala de Estar</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        <tr>
+                            <td>Cozinha</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        <tr>
+                            <td>Sala de Jantar</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        <tr>
+                            <td>Salão de Festas</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        <tr>
+                            <td>Sala de Música</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        <tr>
+                            <td>Salão de Jogos</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        <tr>
+                            <td>Biblioteca</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        <tr>
+                            <td>Escritório</td>
+                            <td><input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste"/></td>
+                        </tr>
+                        </table>
+                    </div>        
+                </div>
+            </div>
+        </div>
+
+                <div class="container body-content" style="width:100%;padding: 0">
+            <div class="row">
+                <div class="col-lg-9">
+                    <h1>Tabuleiro</h1>
+                </div>
+                <div class="col-lg-3">        
+                </div>
+            </div>   
+        </div>             
+
+        <div class="navbar navbar-inverse nav_blue navbar-fixed-bottom">
+            <div class="container">
+                <div class="navbar-header">
+                      <div style="color:white">
+                        <img style="height:50px" src="Imagens/Personagens/Perfil/Dona_violeta.png" class="img-responsive img-circle" alt="Coronel mostarda">                
+                        Próximo jogador
+                    </div>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a>Minhas Cartas</a></li>
+                        <li><a>Chat</a></li>
+                    </ul>
+                </div>                
+            </div>                
+            <div class="pull-right" style="color:white">
+                Onde serão exibidas as ultimas mensagens
+            </div>
+        </div>	
+
+        <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+        <script type="text/javascript" src="bower_components/switchery/dist/switchery.js"></script>
+
+        <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+        <script type="text/javascript" src="bower_components/ng-switchery/src/ng-switchery.js"></script>
+
+        <script type="text/javascript" src="App/app.js"></script>
+
+        <script type="text/javascript" src="App/Controllers/PartidaController.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.conteudo_cartas').css('max-height',window.innerHeight - $('.avatar').height() - 70)
+            })
+        </script>
+    </body>
+</html>
+

@@ -1,0 +1,78 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.nav_blue{
+  background-color: #263A4A !important;
+}
+
+body{
+  overflow: hidden;
+}
+
+.conteudo_cartas{
+  overflow-y: auto;
+  margin-bottom: 350px;
+}
+
+/* Let's get this party started */
+.flexcroll::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+/* Track */
+ 
+/* Handle */
+.flexcroll::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background:white; 
+    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.5); 
+}
+
+.per_tit{
+  font-family: 'Comic Sans MS';
+}
+
+
+.per_nome{
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+}
+
+.avatar{
+  background-color: #263A4A;
+  padding: 10px;
+  color: white;
+   display: -webkit-flex; /* Safari */
+    -webkit-align-items: center; /* Safari 7.0+ */
+    display: flex;
+    align-items: center;
+}
+.avatar span{
+  margin-left: 15px;
+}
+
+.table_cartas{
+  border:1px solid #263A4A;
+  margin-bottom: 0px !important;
+}
+
+.titulo_cartas{
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  background-color: aliceblue;
+}
+
+
+.tabuleiro{
+  border: 1px black solid;
+  width: 5000px;
+}
+
+.tabuleiro, tr, td{
+  width: 300px;
+  height: 40px;
+  border: 1px black solid;
+}
