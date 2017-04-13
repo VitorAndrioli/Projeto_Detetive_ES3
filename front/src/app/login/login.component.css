@@ -1,0 +1,17 @@
+.example-card {
+  width: 300px;
+}
+.containerY{
+    height: 100%;
+}
+
+.example-header-image {
+  background-size: cover;
+}
+md-input-container{
+  width: 100%;
+}
+md-card-actions{
+  float: right;
+}
+.material-icons.indigo { color: indigo; }
