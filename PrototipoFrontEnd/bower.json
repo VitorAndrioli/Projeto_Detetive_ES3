@@ -19,9 +19,10 @@
     "tests"
   ],
   "dependencies": {
-    "angular":"~1.4.8",
-    "bootstrap":"latest",
-    "switchery":"latest",
-    "ng-switchery":"latest"
+    "angular": "~1.4.8",
+    "bootstrap": "latest",
+    "switchery": "latest",
+    "ng-switchery": "latest",
+    "dragscroll": "0.0.8"
   }
 }

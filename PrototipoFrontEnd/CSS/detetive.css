@@ -1,99 +1,146 @@
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
+    display: none !important;
 }
 
-.porta{
-  background:  brown;
+.porta {
+    background: brown;
 }
 
-.pl{
-  border-left: 0px !important;
+.pl {
+    border-left: 0px !important;
 }
 
-.pb{
-  border-bottom: 0px !important;
+.pb {
+    border-bottom: 0px !important;
 }
 
-.pr{
-  border-right: 0px !important;
+.pr {
+    border-right: 0px !important;
 }
 
-.pt{
-  border-top: 0px !important;
+.pt {
+    border-top: 0px !important;
 }
 
-#divTabuleiro{
-  overflow: auto;
-  padding: 50px;
+#divTabuleiro {
+    overflow: auto;
+    padding: 50px;
+    cursor:move;
 }
 
-.linha{
-  width: 1300px;
-  height: 50px;
+.linha {
+    width: 1300px;
+    height: 50px;
 }
 
-.item_tab{
-  width: 50px;
-  height: 50px;
-  float: left;
+.item_tab {
+    width: 50px;
+    height: 50px;
+    float: left;
 }
 
-.nav_blue{
-  background-color: #263A4A !important;
+.nav_blue {
+    background-color: #263A4A !important;
 }
 
-body{
-  overflow: hidden;
+body {
+    overflow: hidden;
 }
 
-.conteudo_cartas{
-  overflow: auto;
+.conteudo_cartas {
+    overflow: auto;
 }
 
-.perfil{
-  width:50px;
-  height: 50px;
-  background-repeat: no-repeat;
-  background-size: 50px;
+.perfil {
+    width: 50px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-size: 50px;
 }
 
 /* Let's get this party started */
 .flexcroll::-webkit-scrollbar {
     width: 12px;
 }
- 
+
 /* Track */
- 
+
 /* Handle */
 .flexcroll::-webkit-scrollbar-thumb {
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    background:white; 
-    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.5); 
+    background: white;
+    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.5);
 }
 
 
-.avatar{
-  background-color: #263A4A;
-  padding: 10px;
-  color: white;
-   display: -webkit-flex; /* Safari */
+.avatar {
+    background-color: #263A4A;
+    padding: 10px;
+    color: white;
+    display: -webkit-flex; /* Safari */
     -webkit-align-items: center; /* Safari 7.0+ */
     display: flex;
     align-items: center;
 }
-.avatar span{
-  margin-left: 15px;
+
+    .avatar span {
+        margin-left: 15px;
+    }
+
+.table_cartas {
+    border: 1px solid #263A4A;
+    margin-bottom: 0px !important;
 }
 
-.table_cartas{
-  border:1px solid #263A4A;
-  margin-bottom: 0px !important;
+.titulo_cartas {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: aliceblue;
 }
 
-.titulo_cartas{
-  text-align: center;
-  font-weight: bold;
-  font-size: 20px;
-  background-color: aliceblue;
+.todos_personagens {
+    padding: 5px;
+    position: absolute;
+    width:420px;
+    height:105px;
+    z-index:99999999;
+    top: 83%;
+    left: 32%;
+}
+
+.perfil_grid {
+    width:28px;
+    margin:5px;
+}
+
+.active{
+    width:50px;
+}
+
+.dados{
+    position:absolute;
+    top:83%;
+    right:20%;
+}
+
+.palpite{
+    position:absolute;
+    top:83%;
+    left:1%;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-button {
+    background: #ccc
+}
+::-webkit-scrollbar-track-piece {
+    background: #888
+}
+::-webkit-scrollbar-thumb {
+    background: #eee
 }
