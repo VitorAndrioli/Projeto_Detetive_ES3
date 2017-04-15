@@ -1,9 +1,9 @@
  <div class="containerY" fxLayout="column" fxLayoutAlign="center center">
 <div class="containerX" fxLayout="row" fxLayoutAlign="center center">
  
-<md-card class="example-card">
+<md-card class="login-card">
   <md-card-header>
-    <div md-card-avatar class="example-header-image"><i class="material-icons md-58 indigo">face</i></div>
+    <div md-card-avatar class="header-image"><i class="material-icons md-58 indigo">face</i></div>
     <md-card-title>Login</md-card-title>
   </md-card-header>
   <md-card-content>
@@ -15,8 +15,8 @@
 </md-input-container>
   </md-card-content>
   <md-card-actions>
-    <button md-raised-button color="primary" >login</button>
-    <button md-raised-button color="accent" >cadastre-se</button>
+    <a md-raised-button color="primary"  routerLink="/admin">login</a>
+    <a md-raised-button color="accent"  routerLink="/sign-up">cadastre-se</a>
   </md-card-actions>
 </md-card>
 </div>

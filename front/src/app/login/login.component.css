@@ -1,11 +1,11 @@
-.example-card {
+.login-card {
   width: 300px;
 }
 .containerY{
     height: 100%;
 }
 
-.example-header-image {
+.header-image {
   background-size: cover;
 }
 md-input-container{
