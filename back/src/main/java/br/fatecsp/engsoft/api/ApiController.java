@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ApiController {
-    @RequestMapping("/api/greeting")
+    
+	@RequestMapping("/api/greeting")
     @ResponseBody
     public Greeting index(@RequestParam(value="name", required=false, defaultValue="World") String name) {
         return new Greeting("Hello, " + name);
     }
+    
 }
