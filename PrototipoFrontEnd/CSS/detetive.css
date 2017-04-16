@@ -49,6 +49,7 @@ body {
 
 .conteudo_cartas {
     overflow: auto;
+    cursor:move;
 }
 
 .perfil {
