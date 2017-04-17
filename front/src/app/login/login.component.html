@@ -1,24 +1,26 @@
- <div class="containerY" fxLayout="column" fxLayoutAlign="center center">
-<div class="containerX" fxLayout="row" fxLayoutAlign="center center">
- 
-<md-card class="login-card">
-  <md-card-header>
-    <div md-card-avatar class="header-image"><i class="material-icons md-58 indigo">face</i></div>
-    <md-card-title>Login</md-card-title>
-  </md-card-header>
-  <md-card-content>
-<md-input-container>
-  <input mdInput placeholder="email" value="">
-</md-input-container>
-<md-input-container>
-  <input mdInput type="password" placeholder="senha" value="">
-</md-input-container>
-  </md-card-content>
-  <md-card-actions>
-    <a md-raised-button color="primary"  routerLink="/admin">login</a>
-    <a md-raised-button color="accent"  routerLink="/sign-up">cadastre-se</a>
-  </md-card-actions>
-</md-card>
-</div>
+<div class="containerY" fxLayout="column" fxLayoutAlign="center center">
+    <div class="containerX" fxLayout="row" fxLayoutAlign="center center">
+
+        <md-card class="login-card">
+            <md-card-header>
+                <div md-card-avatar class="header-image"><i class="material-icons md-58 indigo">face</i></div>
+                <md-card-title>Login</md-card-title>
+            </md-card-header>
+            <md-card-content>
+                <md-input-container>
+                    <input mdInput type="email" placeholder="email" [(ngModel)]="user.email" value="">
+                </md-input-container>
+                <md-input-container>
+                    <input mdInput type="password" placeholder="senha" [(ngModel)]="user.password" value="">
+                </md-input-container>
+            </md-card-content>
+            <span *ngIf="errorMsg" class="error-msg">{{errorMsg}}</span>
+            <md-card-actions>
+
+                <a md-raised-button color="primary" routerLink="/sign-up">cadastre-se</a>
+                <button md-raised-button color="accent" (click)="login()" type="submit">login</button>
+            </md-card-actions>
+        </md-card>
+    </div>
 
 </div>

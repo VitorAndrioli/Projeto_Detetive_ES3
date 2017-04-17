@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { User } from '../models/user';
+import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor() { }
+  public user = new User('','', false);
+  public passwordConfirm = '';
+  public errorMsg ='';
+  
+    constructor( private auth:AuthService) {}
 
-  ngOnInit() {
-  }
+ ngOnInit(){
+   this.auth.checkLoginCredentials();
+ }
 
+newUser(user:User){
+  if(user.password = this.passwordConfirm){
+  this.auth.users.push(user);
+  this.auth.login(user);
+}else{
+  this.errorMsg = 'dados inválidos';
+}
+}
 }

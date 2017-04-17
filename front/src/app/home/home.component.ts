@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../auth.service'
-
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class AdminComponent implements OnInit {
+export class HomeComponent implements OnInit {
 
   constructor(private auth:AuthService) { }
 
   ngOnInit() {
-    this.auth.checkAdmCredentials();
+    this.auth.checkCredentials();
   }
-  logout(){
+    logout(){
     this.auth.logout();
   }
 
