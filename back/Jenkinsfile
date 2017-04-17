@@ -6,6 +6,7 @@ node {
 		stash 'working-copy'
 	}
 
+    /*
 	stage('Test') {
 		checkout scm
 		unstash 'working-copy'
@@ -13,6 +14,7 @@ node {
 		sh "${mvnHome}/bin/mvn -f back/pom.xml test"		
 		junit '**/target/**/*.xml'
 	}
+	*/
 
 	stage ('Package') {
 		checkout scm
