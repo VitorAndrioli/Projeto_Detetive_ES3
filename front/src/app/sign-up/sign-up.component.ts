@@ -19,7 +19,7 @@ export class SignUpComponent implements OnInit {
  }
 
 newUser(user:User){
-  if(user.password = this.passwordConfirm){
+  if(user.password == this.passwordConfirm){
   this.auth.users.push(user);
   this.auth.login(user);
 }else{
