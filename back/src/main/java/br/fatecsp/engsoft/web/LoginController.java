@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class HelloController {
+public class LoginController {
     
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(

@@ -7,14 +7,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Themes</title>
+<title>Novo tema</title>
 <head>
 <link rel="stylesheet" type="text/css"
 	href="${contextPath}/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 </head>
 <body>
 	<form id="logoutForm" method="POST" action="${contextPath}/logout">
-		
+	
 	</form>
 
 	<nav class="navbar navbar-inverse">
@@ -30,41 +30,25 @@
 
 	<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-xs-offset-2">
 		<div class="panel panel-default">
-			<div class="panel-heading">Temas</div>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Nome</th>
-						<th>Preço</th>
-						<th>Deck</th>
-						<th>#</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:if test="${not empty themes}">
-						<c:forEach var="theme" items="#{themes}">
-							<tr>
-								<td>${theme.id}</td>
-								<td>${theme.name}</td>
-								<td>${theme.price}</td>
-								<td><a class="glyphicon glyphicon-align-justify"
-									href="${contextPath}/deck/${theme.id}"></a></td>
-								<td><a class="glyphicon glyphicon-pencil"
-									href="${contextPath}/themes/${theme.id}"></a> <a
-									class="glyphicon glyphicon-remove"
-									href="${contextPath}/themes/remove/${theme.id}"></a></td>
-							</tr>
-						</c:forEach>
-					</c:if>
-				</tbody>
-			</table>
+			<div class="panel-heading">Novo Tema</div>
+			<div class="panel-body">
+				<form method="POST" action="${contextPath}/themes">
+					<div class="form-group">
+						<label for="email">Nome:</label> <input type="text"
+							class="form-control" name="name">
+					</div>
+					<div class="form-group">
+						<label for="pwd">Preço:</label> <input type="number" min="1"
+							step="any" class="form-control" name="price" />
+					</div>
+					<input type="submit" class="btn btn-primary" value="Criar"/>
+					<a class="btn btn-default" href="${contextPath}/themes">Voltar</a>
+				</form>
+			</div>
 		</div>
-		<a class="btn btn-primary" href="${contextPath}/novoTema">Novo</a>
 	</div>
 
-	<script type="text/javascript"
-		src="${contextPath}/webjars/jquery/2.2.4/jquery.min.js"></script>
+	<script type="text/javascript" src="${contextPath}/webjars/jquery/2.2.4/jquery.min.js"></script>
 	<script type="text/javascript"
 		src="${contextPath}/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>

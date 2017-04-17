@@ -14,7 +14,6 @@
 </head>
 <body>
 	<form id="logoutForm" method="POST" action="${contextPath}/logout">
-		
 	</form>
 
 	<nav class="navbar navbar-inverse">
@@ -30,37 +29,34 @@
 
 	<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-xs-offset-2">
 		<div class="panel panel-default">
-			<div class="panel-heading">Temas</div>
+			<div class="panel-heading">Cartas</div>
 			<table class="table">
 				<thead>
 					<tr>
 						<th>ID</th>
 						<th>Nome</th>
-						<th>Preço</th>
-						<th>Deck</th>
+						<th>Tipo</th>
 						<th>#</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:if test="${not empty themes}">
-						<c:forEach var="theme" items="#{themes}">
+					<c:if test="${not empty cards}">
+						<c:forEach var="card" items="#{cards}">
 							<tr>
-								<td>${theme.id}</td>
-								<td>${theme.name}</td>
-								<td>${theme.price}</td>
-								<td><a class="glyphicon glyphicon-align-justify"
-									href="${contextPath}/deck/${theme.id}"></a></td>
-								<td><a class="glyphicon glyphicon-pencil"
-									href="${contextPath}/themes/${theme.id}"></a> <a
+								<td>${card.id}</td>
+								<td>${card.name}</td>
+								<td>${card.cardType.type}</td>
+								<td><a class="glyphicon glyphicon-pencil" href="${contextPath}/deck/card/${card.id}"></a><a
 									class="glyphicon glyphicon-remove"
-									href="${contextPath}/themes/remove/${theme.id}"></a></td>
+									href="${contextPath}/deck/card/remove/${card.id}"></a></td>
 							</tr>
 						</c:forEach>
 					</c:if>
 				</tbody>
 			</table>
 		</div>
-		<a class="btn btn-primary" href="${contextPath}/novoTema">Novo</a>
+		<a class="btn btn-primary" href="${contextPath}/novaCarta">Novo</a> <a
+			class="btn btn-default" href="${contextPath}/themes">Voltar</a>
 	</div>
 
 	<script type="text/javascript"

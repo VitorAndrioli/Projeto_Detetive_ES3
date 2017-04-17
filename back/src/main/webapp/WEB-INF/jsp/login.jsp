@@ -9,7 +9,7 @@
 <title>Login</title>
 <head>
 <link rel="stylesheet" type="text/css"
-	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+	href="${contextPath}/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 </head>
 <body>
 	<div
@@ -17,7 +17,7 @@
 		<br />
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h1 align="center">Login</h1>
+				<h1 align="center">BackOffice</h1>
 			</div>
 			<div class="panel-body">
 				<form method="POST" action="${contextPath}/login">
@@ -49,15 +49,13 @@
 						style="width: 100%">
 						Login<i class="glyphicon glyphicon-log-in"></i>
 					</button>
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
 				</form>
 			</div>
 		</div>
 	</div>
 
-	<script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
+	<script type="text/javascript" src="${contextPath}/webjars/jquery/2.2.4/jquery.min.js"></script>
 	<script type="text/javascript"
-		src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		src="${contextPath}/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
