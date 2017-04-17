@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
-
+<html ng-app="DetetiveApp" ng-cloak>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,67 +10,15 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/switchery/dist/switchery.css" />
 
-    <style>
-        #divTabuleiro {
-            background-image: url('Imagens/starwars/fundo.jpg');
-            background-repeat: no-repeat;
-            background-size: 100%;
-        }
-
-        .item_tab {
-            border: 1px solid white;
-        }
-
-        .local1 {
-            background-image: url('Imagens/starwars/locais/estreladamorte.jpg');
-        }
-
-        .local2 {
-            background-image: url('Imagens/starwars/locais/alderaan.jpg');
-        }
-
-        .local3 {
-            background-image: url('Imagens/starwars/locais/bespin.jpg');
-        }
-
-        .local4 {
-            background-image: url('Imagens/starwars/locais/coruscant.jpg');
-        }
-
-        .local5 {
-            background-image: url('Imagens/starwars/locais/dagobah.jpg');
-        }
-
-        .local6 {
-            background-image: url('Imagens/starwars/locais/endor.jpg');
-        }
-
-        .local7 {
-            background-image: url('Imagens/starwars/locais/endor.jpg');
-        }
-
-        .local8 {
-            background-image: url('Imagens/starwars/locais/kamino.jpeg');
-        }
-
-        .local9 {
-            background-image: url('Imagens/starwars/locais/kashyyyk.jpg');
-        }
-
-        .local10 {
-            background-image: url('Imagens/starwars/locais/naboo.jpeg');
-        }
-
-        .local11 {
-            background-image: url('Imagens/starwars/locais/yavin_4.jpeg');
-        }
+    <style id="styleDynamic">
+        
     </style>
 
     <link rel="stylesheet" href="CSS/local.css" />
 </head>
-<body ng-app="DetetiveApp" ng-cloak ng-controller="PartidaController">
+<body ng-controller="PartidaController">
     <div class="row">
-        <div id="divTabuleiro" class="pull-left dragscroll grabbable">
+        <div id="divTabuleiro" class="pull-left dragscroll">
             <div class="campo">
                 <div class="linha">
                     <div class="item_tab local1 posicao11"></div>
@@ -286,7 +233,7 @@
                     <div class="item_tab"></div>
                     <div class="item_tab"></div>
                     <div class="item_tab"></div>
-                    <div class="item_tab"></div>
+                    <div class="item_tab porta"></div>
                     <div class="item_tab"></div>
                 </div>
                 <div class="linha">
@@ -295,8 +242,8 @@
                     <div class="item_tab local4 posicao23"></div>
                     <div class="item_tab local4 posicao24"></div>
                     <div class="item_tab local4 posicao25"></div>
+                    <div class="item_tab local4 posicao26"></div>
                     <div class="item_tab porta pl"></div>
-                    <div class="item_tab"></div>
                     <div class="item_tab"></div>
                     <div class="item_tab"></div>
                     <div class="item_tab local5 posicao11"></div>
@@ -444,12 +391,12 @@
                     <div class="item_tab"></div>
                     <div class="item_tab"></div>
                     <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
+                    <div class="item_tab local8 posicao11"></div>
+                    <div class="item_tab local8 posicao12"></div>
                     <div class="item_tab local8 posicao13"></div>
                     <div class="item_tab local8 posicao14"></div>
                     <div class="item_tab local8 posicao15"></div>
+                    <div class="item_tab local8 posicao16"></div>
                 </div>
                 <div class="linha">
                     <div class="item_tab local7 posicao31"></div>
@@ -552,9 +499,9 @@
                     <div class="item_tab"></div>
                     <div class="item_tab"></div>
                     <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
+                    <div class="item_tab local8 posicao51"></div>
+                    <div class="item_tab local8 posicao52"></div>
+                    <div class="item_tab local8 posicao53"></div>
                     <div class="item_tab local8 posicao54"></div>
                     <div class="item_tab local8 posicao55"></div>
                     <div class="item_tab local8 posicao56"></div>
@@ -757,7 +704,7 @@
                     <span>{{meuPersonagem.nome}}</span>
 
                 </div>
-                <div class="conteudo_cartas scrollbar">
+                <div class="conteudo_cartas scrollbar dragscroll">
                     <table class="table table_cartas">
                         <tr>
                             <td colspan="2" class="titulo_cartas">Suspeitos</td>
@@ -807,7 +754,7 @@
     
     <div class="todos_personagens">
         <img class="perfil_grid" 
-             ng-class="{'active': $index == 5 }" 
+             ng-class="{'active': $index == indicePersonagemAtual }" 
              ng-repeat="personagem in personagens" 
              ng-src="{{personagem.src}}"/>
     </div>
@@ -840,7 +787,6 @@
 
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="bower_components/switchery/dist/switchery.js"></script>
-    <script type="text/javascript" src="bower_components/jquery.dragscroll/src/jquery.dragscroll.js"></script>
     <script type="text/javascript" src="bower_components/dragscroll/dragscroll.js"></script>
 
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
@@ -848,7 +794,17 @@
 
     <script type="text/javascript" src="App/app.js"></script>
 
+    <!--Star Wars-->
+    <!--<script type="text/javascript" src="App/Factory/StarWarsFactory.js"></script>-->
+
+    <!--Padrao-->
+    <script type="text/javascript" src="App/Factory/PadraoFactory.js"></script>
+
     <script type="text/javascript" src="App/Controllers/PartidaController.js"></script>
+
+     
+
+
     <script type="text/javascript">
 
         function Tamanhos() {

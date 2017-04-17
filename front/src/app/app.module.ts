@@ -8,11 +8,17 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { LoginComponent} from  './login/login.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
 import 'hammerjs';
+import { AdminComponent } from './admin/admin.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import {AuthService} from'./auth.service';
+import { HomeComponent } from './home/home.component'
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: '',
+  { path: 'admin', component: AdminComponent },
+   { path: 'sign-up', component: SignUpComponent },
+   {path: 'home', component: HomeComponent},
+  { path: '**',
     redirectTo: '/login',
     pathMatch: 'full'
   }
@@ -20,7 +26,10 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     LoginComponent,
-    AppComponent
+    AppComponent,
+    AdminComponent,
+    SignUpComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +40,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     FlexLayoutModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

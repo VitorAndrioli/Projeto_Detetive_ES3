@@ -1,17 +1,28 @@
-.example-card {
-  width: 300px;
+.login-card {
+    width: 300px;
 }
-.containerY{
+
+.containerY {
     height: 100%;
 }
 
-.example-header-image {
-  background-size: cover;
+.header-image {
+    background-size: cover;
 }
-md-input-container{
-  width: 100%;
+
+md-input-container {
+    width: 100%;
 }
-md-card-actions{
-  float: right;
+
+md-card-actions {
+    float: right;
 }
-.material-icons.indigo { color: indigo; }
+
+.material-icons.indigo {
+    color: indigo;
+}
+
+.error-msg {
+    font-size: 12px;
+    color: brown;
+}
