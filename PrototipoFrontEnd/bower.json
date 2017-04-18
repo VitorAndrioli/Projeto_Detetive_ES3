@@ -23,6 +23,7 @@
     "bootstrap": "latest",
     "switchery": "latest",
     "ng-switchery": "latest",
-    "dragscroll": "0.0.8"
+    "dragscroll": "0.0.8",
+    "sweetalert": "1.1.3"
   }
 }

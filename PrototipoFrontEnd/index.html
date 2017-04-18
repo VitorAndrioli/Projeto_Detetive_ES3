@@ -9,14 +9,128 @@
 
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/switchery/dist/switchery.css" />
+    <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css" />
 
     <style id="styleDynamic">
-        
     </style>
 
     <link rel="stylesheet" href="CSS/local.css" />
 </head>
 <body ng-controller="PartidaController">
+
+    <div class="modal fade in" id="cartasModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Minhas Cartas</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="carta carta_sombra personagem">
+                                <div class="perfil" style="background-image: url({{personagens[0].src}}) "></div>
+                                <span class="nome">{{personagens[0].nome}}</span>
+                            </div>
+                            <div class="carta personagem carta_sombra">
+                                <div class="perfil" style="background-image: url({{personagens[2].src}}) "></div>
+                                <span class="nome">{{personagens[2].nome}}</span>
+                            </div>
+                            <div class="carta arma carta_sombra">
+                                <div class="perfil" style="background-image: url({{armas[0].src}}) "></div>
+                                <span class="nome">{{armas[0].nome}}</span>
+                            </div>
+                            <div class="carta arma carta_sombra">
+                                <div class="perfil" style="background-image: url({{armas[1].src}}) "></div>
+                                <span class="nome">{{armas[1].nome}}</span>
+                            </div>
+                            <div class="carta arma carta_sombra">
+                                <div class="perfil" style="background-image: url({{armas[3].src}}) "></div>
+                                <span class="nome">{{armas[3].nome}}</span>
+                            </div>
+                            <div class="carta local carta_sombra">
+                                <div class="perfil" style="background-image: url({{locais[0].src}}) "></div>
+                                <span class="nome">{{locais[0].nome}}</span>
+                            </div>
+                            <div class="carta local carta_sombra">
+                                <div class="perfil" style="background-image: url({{locais[3].src}}) "></div>
+                                <span class="nome">{{locais[3].nome}}</span>
+                            </div>
+                            <div class="carta local carta_sombra">
+                                <div class="perfil" style="background-image: url({{locais[6].src}}) "></div>
+                                <span class="nome">{{locais[6].nome}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade in" id="banirModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Banir jogador?</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div ng-class="{'banir' : jogador.nome == jogadorParaBanir.nome}" class="carta personagem" ng-repeat="jogador in jogadores" ng-click="SelecBanir(jogador)">
+                                <div class="perfil" style="background-image: url({{jogador.personagem}}) "></div>
+                                <span class="nome">{{jogador.nome}}</span>
+                            </div>
+                        </div>
+                    </div>                    
+                    <button class="btn btn-success" style="margin-top:50px;" ng-click="BanirJogador()" ng-disabled="jogadorParaBanir == null">
+                        Banir
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade in" id="chatModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Chat</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="chat_corpo" id="chat_corpo">
+                                <div class="mensagem" ng-repeat="mensagem in mensagens">
+                                    <span ng-class="mensagem.class">{{mensagem.nome}}:</span>
+                                    <span class="chat_texto">{{mensagem.mensagem}}</span>
+                                </div>
+
+                            </div>
+                            <div>
+                                <div class="inner-addon right-addon">
+                                    <input type="text" id="txtConteudo" class="form-control col-lg-12" placeholder="Digite sua mensagem, aperte ENTER para enviar" />
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div id="divTabuleiro" class="pull-left dragscroll">
             <div class="campo">
@@ -751,12 +865,12 @@
             </div>
         </div>
     </div>
-    
+
     <div class="todos_personagens">
-        <img class="perfil_grid" 
-             ng-class="{'active': $index == indicePersonagemAtual }" 
-             ng-repeat="personagem in personagens" 
-             ng-src="{{personagem.src}}"/>
+        <img class="perfil_grid"
+             ng-class="{'active': $index == indicePersonagemAtual }"
+             ng-repeat="personagem in personagens"
+             ng-src="{{personagem.src}}" />
     </div>
 
     <div class="palpite">
@@ -775,11 +889,11 @@
         <div class="container">
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a>Minhas Cartas</a></li>
-                    <li><a>Chat</a></li>
+                    <li><a data-toggle="modal" href="#cartasModal">Minhas Cartas</a></li>
+                    <li><a data-toggle="modal" href="#chatModal">Chat</a></li>
                 </ul>
-                <ul class="nav navbar-nav pull-right"   >
-                    <li><a>Banir jogador</a></li>
+                <ul class="nav navbar-nav pull-right">
+                    <li><a data-toggle="modal" href="#banirModal">Banir jogador</a></li>
                 </ul>
             </div>
         </div>
@@ -788,6 +902,8 @@
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="bower_components/switchery/dist/switchery.js"></script>
     <script type="text/javascript" src="bower_components/dragscroll/dragscroll.js"></script>
+    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
 
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="bower_components/ng-switchery/src/ng-switchery.js"></script>
@@ -796,15 +912,13 @@
 
     <!--Star Wars-->
     <script type="text/javascript" src="App/Factory/StarWarsFactory.js"></script>
-
     <!--Padrao-->
-    <script type="text/javascript" src="App/Factory/PadraoFactory.js"></script>
+    <!--<script type="text/javascript" src="App/Factory/PadraoFactory.js"></script>-->
+
+
+
 
     <script type="text/javascript" src="App/Controllers/PartidaController.js"></script>
-
-     
-
-
     <script type="text/javascript">
 
         function Tamanhos() {
