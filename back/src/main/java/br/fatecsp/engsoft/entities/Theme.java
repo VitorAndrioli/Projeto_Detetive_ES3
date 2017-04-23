@@ -1,18 +1,11 @@
 package br.fatecsp.engsoft.entities;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import br.fatecsp.engsoft.domain.ThemeRequest;
 import lombok.Data;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name="theme")
@@ -24,6 +17,7 @@ public class Theme {
 	private Long id;
 	private String name;
 	private BigDecimal price;
+	private String imageSrc;
 	
 	@OneToMany(mappedBy="theme",cascade=CascadeType.ALL)
 	private List<Card> cards;
@@ -32,6 +26,7 @@ public class Theme {
 		Theme theme = new Theme();
 		theme.setName(request.getName());
 		theme.setPrice(request.getPrice());
+		theme.setImageSrc(request.getImageSrc());
 		return theme;
 	}
 	

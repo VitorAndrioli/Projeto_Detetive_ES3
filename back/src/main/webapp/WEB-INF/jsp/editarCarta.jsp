@@ -44,6 +44,8 @@
 							<option value="SUSPECT" ${card.cardType eq 'SUSPECT' ? "selected" : ""}>Suspeito</option>
 						</select>
 					</div>
+					Imagem da carta:<input type="file" name="cardSrc" />
+                    <img id="card" src="<c:url value="/cards/${card.cardSrc}.png"/>" />
 					<input type="submit" class="btn btn-primary" value="Salvar"/>
 					<a class="btn btn-default" href="${contextPath}/deck/${card.theme.id}">Voltar</a>
 				</form>

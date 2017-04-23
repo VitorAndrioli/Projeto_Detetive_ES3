@@ -1,6 +1,7 @@
 package br.fatecsp.engsoft.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -17,5 +18,12 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/novaCarta").setViewName("novaCarta");
         registry.addViewController("/editarCarta").setViewName("editarCarta");
     }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resource/**").addResourceLocations("/resources/cards");
+    }
+
+
     
 }
