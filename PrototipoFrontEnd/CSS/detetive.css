@@ -106,7 +106,7 @@ body {
     position: absolute;
     width:420px;
     height:105px;
-    z-index:99999999;
+    z-index:1031;
     top: 83%;
     left: 32%;
 }
@@ -144,4 +144,102 @@ body {
 }
 ::-webkit-scrollbar-thumb {
     background: #eee
+}
+
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+/* Chat */
+.chat_corpo{
+    width: 100%;
+    max-height: 250px;
+    height: 250px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.63);
+}
+
+.eu {
+    color: #ece961;
+    font-weight: bold;
+}
+
+.jogador1{
+    color:#6184ec;
+    font-weight: bold;
+}
+
+.jogador2{
+    color:orange;
+    font-weight: bold;
+}
+
+.mensagem{
+    padding-top: 5px;
+    margin: 5px;
+}
+
+.chat_texto{
+    color: white;
+}
+
+/*CARTAS*/
+.carta {
+    width: 100px;
+    height: 140px;
+    float: left;
+    margin: 5px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px;
+}
+
+.carta_sombra {
+    box-shadow: 10px 10px 5px #888888;
+}
+
+    .carta div{
+        position:relative;
+        top:2%;
+        left:23%;
+        margin-bottom:5px;
+    }
+
+    .carta span {
+        color: white;
+        font-weight: bold;
+        margin-top:5px;
+    }
+
+    .carta.personagem {
+        background-color: #183694;
+    }
+
+
+
+    .carta.arma {
+        background-color: #941818;
+    }
+
+    .carta.local {
+        background-color: #189431;
+    }
+
+.banir {
+    border: 3px solid #d0d0d0;
 }

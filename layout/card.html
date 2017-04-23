@@ -1,0 +1,58 @@
+	<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			.card {
+				width:  300px;
+				height: 480px;
+
+				padding: 20px;
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
+
+				box-sizing: border-box;
+
+				border: 6px solid #121650;
+				font-family: Monospace;
+			}
+			.flex-col {
+				display: flex;
+				flex-direction: column;
+			}
+			.flex-row {
+				display: flex;
+				flex-direction: row;
+			}
+			.flex-stretch { align-items: stretch; }
+			.flex-center-a { justify-content: center; }
+			.flex-center-b { align-items: center; }
+			.flex { flex: 1; }
+
+			.name-container {
+				box-shadow: inset 0px 0px 8px;
+				height: 40px;
+				padding: 0px 14px;
+				margin-bottom: 25px;
+				background-color: #FFF;
+			}
+			.name-container #type { font-style: italic; }
+			.photo-container {
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
+				box-shadow: inset 0px 0px 8px;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div class="card flex-col flex-stretch" style="background-image: url(./fundo.jpg);">
+			<div class="name-container flex-row flex-center-b">
+				<p class="flex">Luke Skywalker</p>
+				<p id="type">Detetive</p>
+			</div>
+			<div class="photo-container flex" style="background-image: url(./personagem.jpg);"></div>
+		</div>
+	</body>
+</html>
