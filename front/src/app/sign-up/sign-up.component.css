@@ -10,11 +10,11 @@
     background-size: cover;
 }
 
-md-input-container {
+.input-container-sign-up {
     width: 100%;
 }
 
-md-card-actions {
+.card-action-sign-up {
     float: right;
 }
 

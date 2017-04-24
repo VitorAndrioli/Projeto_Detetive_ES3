@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from './models/user';
-
+import { User } from '../models/user';
+import { WebsocketService} from './websocket.service';
+import * as io from 'socket.io-client';
 
 @Injectable()
 export class AuthService {
+  public isLoggedIn = false;
   public users = [
     new User('admin@admin.com', 'admin', true),
     new User('user@user.com', 'user', false)
   ];
-  constructor(
+  constructor(private websocket:WebsocketService,
     private _router: Router) { }
 
   logout() {
-    localStorage.removeItem('user');
-    localStorage.removeItem('userIsAdmin');
+    sessionStorage.clear();
+    sessionStorage.removeItem('userIsAdmin');
+    sessionStorage.removeItem('userJoined');
+    sessionStorage.removeItem('user');
     this._router.navigate(['login']);
   }
 
@@ -22,32 +26,35 @@ export class AuthService {
     let authenticatedUser = this.users.find(u => u.email === user.email);
     if (authenticatedUser && authenticatedUser.password === user.password) {
 
-      localStorage.setItem('user', authenticatedUser.email);
+      sessionStorage.setItem('user', authenticatedUser.email);
       if (authenticatedUser.admin) {
-        localStorage.setItem('userIsAdmin', 'true');
+        sessionStorage.setItem('userIsAdmin', 'true');
         this._router.navigate(['admin']);
       } else {
-        localStorage.setItem('userIsAdmin', 'false');
+        sessionStorage.setItem('userIsAdmin', 'false');
         this._router.navigate(['home']);
       }
+
+    this.isLoggedIn = true;
       return true;
+
     }
     return false;
 
   }
   checkLoginCredentials() {
-    if (localStorage.getItem('user')) {
+    if (sessionStorage.getItem('user')) {
       this._router.navigate(['home']);
     }
   }
 
   checkCredentials() {
-    if (localStorage.getItem('user') === null) {
+    if (sessionStorage.getItem('user') === null) {
       this._router.navigate(['login']);
     }
   }
   checkAdmCredentials() {
-    if (localStorage.getItem('userIsAdmin') === 'false') {
+    if (sessionStorage.getItem('userIsAdmin') === 'false') {
       this._router.navigate(['home']);
     }
   }
