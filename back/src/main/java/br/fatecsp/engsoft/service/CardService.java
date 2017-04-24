@@ -1,15 +1,14 @@
 package br.fatecsp.engsoft.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import br.fatecsp.engsoft.domain.CardRequest;
 import br.fatecsp.engsoft.entities.Card;
 import br.fatecsp.engsoft.entities.Theme;
 import br.fatecsp.engsoft.repositories.CardRepository;
 import br.fatecsp.engsoft.web.enums.CardTypeEnum;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CardService {
@@ -20,9 +19,9 @@ public class CardService {
 	@Autowired 
 	private ThemeService themeService;
 	
-	public Card register(Long id,CardRequest request){
+	public Card register(Long themeId,CardRequest request){
 		Card card = Card.toEntity(request);
-		Theme theme = themeService.find(id);
+		Theme theme = themeService.find(themeId);
 		card.setTheme(theme);
 		return cardRepository.save(card);
 	}
@@ -39,6 +38,7 @@ public class CardService {
 		Card card = cardRepository.findOne(id);
 		card.setName(request.getName());
 		card.setCardType(CardTypeEnum.valueOf(request.getType()));
+		card.setCardSrc(request.getCardSrc());
 		cardRepository.save(card);
 		return card;
 	}

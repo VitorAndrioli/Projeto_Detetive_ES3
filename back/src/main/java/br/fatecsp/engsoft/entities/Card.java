@@ -1,16 +1,10 @@
 package br.fatecsp.engsoft.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import br.fatecsp.engsoft.domain.CardRequest;
 import br.fatecsp.engsoft.web.enums.CardTypeEnum;
 import lombok.Data;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name="Card")
@@ -22,6 +16,8 @@ public class Card {
 	private Long id;
 	
 	private String name;
+
+	private String cardSrc;
 	
 	@Enumerated
 	private CardTypeEnum cardType;
@@ -33,6 +29,7 @@ public class Card {
 		Card card = new Card();
 		card.setName(request.getName());
 		card.setCardType(CardTypeEnum.valueOf(request.getType()));
+		card.setCardSrc( request.getCardSrc());
 		return card;
 	}
 	
