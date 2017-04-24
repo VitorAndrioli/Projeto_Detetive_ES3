@@ -15,6 +15,9 @@
 <link rel="stylesheet" type="text/css"
 	href="${contextPath}/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 
+    <link rel="stylesheet" type="text/css"
+           href="<c:url value="/css/cardBorder.css"/>"/>
+
 </head>
 <body>
 	<form id="logoutForm" method="POST" action="${contextPath}/logout">
@@ -38,19 +41,28 @@
 				<form method="POST" action="${contextPath}/deck/card" enctype="multipart/form-data" runat="server">
 					<div class="form-group">
 						<label for="email">Nome:</label> <input type="text"
-							class="form-control" name="name">
+							class="form-control" name="name" id="name">
 					</div>
 					<div class="form-group">
 						<label for="pwd">Tipo:</label>
-						<select class="form-control" name="type">
+						<select class="form-control" name="type" id="type">
 							<option value="ARM">Arma</option>
 							<option value="PLACE">Lugar</option>
 							<option value="SUSPECT">Suspeito</option>
 						</select>
 					</div>
-                    File to upload:<input id="imgInp"  type="file" name="photo" />
-					
-					<img id="card" src="<c:url value="/cards/936342897.png"/>" />
+                    Imagem da carta:<input id="imgInp"  type="file" name="photo" />
+
+
+                    <div class="card flex-col flex-stretch" style="background-image: url(<c:url value="/cards/fundo.jpg"/>);">
+                        <div class="name-container flex-row flex-center-b">
+                            <p class="flex" id="cardName"></p>
+                            <p id="cardType"></p>
+                        </div>
+                        <div class="photo-container flex">
+                            <img id="card" width="100%" height="100%" alt="Foto da imagem" />
+                        </div>
+                    </div>
 
                     <input  type="submit" class="btn btn-primary" value="Criar" accept="image/*"/>
 					<a class="btn btn-default" href="${contextPath}/themes/photo">Voltar</a>
@@ -58,28 +70,7 @@
             </div>
 		</div>
 	</div>
-
-
-    <script type="text/javascript">
-        console.log("está rodando ueau");
-        function show() {
-            console.log("aaaaaaaaaaaaaa")
-        }
-
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#card').attr('src', e.target.result);
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-        $("#imgInp").change(function(){
-            readURL(this);
-        });
+    <script type="text/javascript" src="<c:url value="/javascript/novaCarta.js"/>">
     </script>
 	<script type="text/javascript"
 		src="${contextPath}/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>

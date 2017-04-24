@@ -2,6 +2,7 @@ package br.fatecsp.engsoft.file;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,8 +25,9 @@ public class PhotosFile {
         return Integer.toString(fileName);
     }
 
-    public void retriveFile(String fileName){
-
+    public static boolean hasPhoto(String fileName){
+        File file = new File("src\\main\\webapp\\cards\\"+ fileName +".png");
+        return file.exists();
     }
 
 }
