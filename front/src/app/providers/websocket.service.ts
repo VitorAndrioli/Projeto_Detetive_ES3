@@ -6,8 +6,12 @@ import * as io from 'socket.io-client'
 export class WebsocketService {
   public socket:io;
   constructor() { 
-    this.socket = io('http://localhost:8000');
+
 }
-
-
+connect(){
+      this.socket = io('http://localhost:8000');
+}
+disconnect(){
+  this.socket.disconnect();
+}
 }

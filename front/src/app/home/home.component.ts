@@ -9,7 +9,9 @@ import { WebsocketService } from '../providers/websocket.service';
 })
 export class HomeComponent implements OnInit {
   private user: User;
+  private canStart: boolean = false;
   private socket: any;
+  private chatEnabled: boolean = false
   private users: Object[];
 
   constructor(private socketService: WebsocketService, private auth: AuthService) {
@@ -29,12 +31,17 @@ export class HomeComponent implements OnInit {
     this.socket.on('playersUpdate', (data) => {
       this.users = data;
       console.log(data);
+      if (this.users.length>= 4){
+        this.canStart = true;
+      }
     });
 
   }
   logout() {
-    this.socket.disconnect();
     this.auth.logout();
+  }
+  toggleChat(){
+  this.chatEnabled = (this.chatEnabled)? false:true;
   }
 
 }

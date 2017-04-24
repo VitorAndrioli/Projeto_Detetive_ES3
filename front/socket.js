@@ -7,6 +7,7 @@ var users = [];
 var chat = {
     start: function() {
         server.listen(8000);
+        console.log("servidor socket.io iniciado na porta " + server.address().port);
         io.set("origins", "*:*");
 
         io.on('connection', (socket) => {

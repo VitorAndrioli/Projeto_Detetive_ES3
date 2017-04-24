@@ -9,12 +9,15 @@ export class AuthService {
   public isLoggedIn = false;
   public users = [
     new User('admin@admin.com', 'admin', true),
-    new User('user@user.com', 'user', false)
+    new User('user@user.com', 'user', false),
+    new User('user2@user.com', 'user',false),
+    new User('user3@user.com','user', false)
   ];
   constructor(private websocket:WebsocketService,
     private _router: Router) { }
 
   logout() {
+    this.websocket.disconnect();
     sessionStorage.clear();
     sessionStorage.removeItem('userIsAdmin');
     sessionStorage.removeItem('userJoined');
@@ -34,7 +37,7 @@ export class AuthService {
         sessionStorage.setItem('userIsAdmin', 'false');
         this._router.navigate(['home']);
       }
-
+    this.websocket.connect();
     this.isLoggedIn = true;
       return true;
 
