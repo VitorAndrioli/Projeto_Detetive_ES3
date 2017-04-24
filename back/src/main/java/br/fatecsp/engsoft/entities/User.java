@@ -15,10 +15,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "user")
 @Data
+@EqualsAndHashCode(exclude="roles")
 public class User {
 
 	@Id
@@ -31,5 +33,4 @@ public class User {
 	@JoinTable(name = "users_roles", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "role_id") })
 	private Set<Role> roles = new HashSet<>();
-
 }
