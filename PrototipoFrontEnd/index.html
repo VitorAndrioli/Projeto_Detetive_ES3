@@ -811,11 +811,11 @@
                 </div>
             </div>
         </div>
-        <div style="width: 250px;margin-right:10px" class="pull-right" ng-show="mostrarBarraLateral">
+        <div style="width: 250px;margin-right:10px" class="pull-right">
             <div id="divCartas">
                 <div class="avatar">
-                    <div class="perfil" style="background-image: url({{meuPersonagem.src}}) "></div>
-                    <span>{{meuPersonagem.nome}}</span>
+                    <div class="perfil" style="background-image: url({{partida.meuJogador.src}}) "></div>
+                    <span>{{partida.meuJogador.nome}}</span>
 
                 </div>
                 <div class="conteudo_cartas scrollbar dragscroll">
@@ -823,13 +823,15 @@
                         <tr>
                             <td colspan="2" class="titulo_cartas">Suspeitos</td>
                         </tr>
-                        <tr ng-repeat="personagem in personagens">
+                        <tr ng-repeat="personagem in partida.barraAnotacao.suspeitos | orderBy:'carta.nome'">
                             <td>
-                                <img ng-src="{{personagem.src}}" style="width:20px" />
-                                {{personagem.nome}}
+                                <img ng-src="{{personagem.carta.src}}" style="width:20px" />
+                                {{personagem.carta.nome}}
                             </td>
                             <td>
-                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste" />
+                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" 
+                                ng-disabled="personagem.minhaCarta"
+                                ng-model="personagem.selecionado" />
                             </td>
                         </tr>
                     </table>
@@ -837,13 +839,15 @@
                         <tr>
                             <td colspan="2" class="titulo_cartas">Armas</td>
                         </tr>
-                        <tr ng-repeat="arma in armas">
+                        <tr ng-repeat="personagem in partida.barraAnotacao.armas | orderBy:'carta.nome'">
                             <td>
-                                <img class="img-responsive" style="width:50px" ng-src="{{arma.src}}" />
-                                {{arma.nome}}
+                                <img ng-src="{{personagem.carta.src}}" style="width:20px" />
+                                {{personagem.carta.nome}}
                             </td>
                             <td>
-                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste" />
+                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" 
+                                ng-disabled="personagem.minhaCarta"
+                                ng-model="personagem.selecionado" />
                             </td>
                         </tr>
                     </table>
@@ -851,13 +855,15 @@
                         <tr>
                             <td colspan="2" class="titulo_cartas">Aposentos</td>
                         </tr>
-                        <tr ng-repeat="local in locais">
+                        <tr ng-repeat="personagem in partida.barraAnotacao.locais | orderBy:'carta.nome'">
                             <td>
-                                <img class="img-responsive" style="width:50px" ng-src="{{local.src}}" />
-                                {{local.nome}}
+                                <img ng-src="{{personagem.carta.src}}" style="width:20px" />
+                                {{personagem.carta.nome}}
                             </td>
                             <td>
-                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-model="teste" />
+                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" 
+                                ng-disabled="personagem.minhaCarta"
+                                ng-model="personagem.selecionado" />
                             </td>
                         </tr>
                     </table>
@@ -868,12 +874,12 @@
 
     <div class="todos_personagens">
         <img class="perfil_grid"
-             ng-class="{'active': $index == indicePersonagemAtual }"
-             ng-repeat="personagem in personagens"
-             ng-src="{{personagem.src}}" />
+             ng-class="{'active': $index == 4 }"
+             ng-repeat="jogador in partida.jogadores"
+             ng-src="{{jogador.src}}" />
     </div>
 
-    <div class="palpite">
+    <div class="palpite" ng-click="VerCarta(8,1)">
         <button class="btn btn-primary">
             Palpite
         </button>
@@ -904,16 +910,14 @@
     <script type="text/javascript" src="bower_components/dragscroll/dragscroll.js"></script>
     <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript" src="bower_components/linqjs/linq.js"></script>
 
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="bower_components/ng-switchery/src/ng-switchery.js"></script>
 
     <script type="text/javascript" src="App/app.js"></script>
 
-    <!--Star Wars-->
-    <!-- <script type="text/javascript" src="App/Factory/StarWarsFactory.js"></script> -->
-    <!--Padrao-->
-    <script type="text/javascript" src="app/factory/padraofactory.js"></script>
+    <script type="text/javascript" src="App/Infraestrutura/Servico/DetetiveApi.js"></script>
 
 
 
