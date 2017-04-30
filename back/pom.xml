@@ -6,7 +6,7 @@
 	<groupId>br.fatecsp.engsoft</groupId>
 	<artifactId>detetive</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>detetive</name>
 	<description>Jogo de Detetive para aula de Engenharia de Software III</description>
