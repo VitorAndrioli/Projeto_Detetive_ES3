@@ -25,6 +25,7 @@
     "ng-switchery": "latest",
     "dragscroll": "0.0.8",
     "sweetalert": "1.1.3",
-    "linqjs": "latest"
+    "linqjs": "latest",
+    "fontawesome":"latest"
   }
 }
