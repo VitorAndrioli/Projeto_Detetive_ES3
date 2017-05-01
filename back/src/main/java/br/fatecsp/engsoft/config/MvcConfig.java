@@ -1,5 +1,6 @@
 package br.fatecsp.engsoft.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -7,6 +8,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 public class MvcConfig extends WebMvcConfigurerAdapter {
+	
+	@Value("${detetive.image.map}")
+    private String filePath;
 	
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -21,7 +25,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resource/**").addResourceLocations("/resources/cards");
+    	registry.addResourceHandler("/files/**").addResourceLocations("file:///"+filePath);
         registry.addResourceHandler("/resource/**").addResourceLocations("/resources/css");
         registry.addResourceHandler("/resource/**").addResourceLocations("/resources/javascript");
     }

@@ -13,20 +13,21 @@ import java.nio.file.Paths;
  */
 public class PhotosFile {
 
-    public  static String createFile(MultipartFile photoFile){
+    public  static String createFile(MultipartFile photoFile, String filePath){
         int fileName = photoFile.hashCode();
         try{
-            Path file = Paths.get( "src\\main\\webapp\\cards\\"+ fileName +".png");
+            String source = filePath + fileName +".png";
+			Path file = Paths.get(source);
             Files.write(file, photoFile.getBytes());
 
         } catch (IOException e) {
             System.err.println("Não foi possível escrever arquivo");
         }
-        return Integer.toString(fileName);
+        return fileName +".png";
     }
 
-    public static boolean hasPhoto(String fileName){
-        File file = new File("src\\main\\webapp\\cards\\"+ fileName +".png");
+    public static boolean hasPhoto(String fileName, String filePath){
+        File file = new File(filePath + fileName +".png");
         return file.exists();
     }
 
