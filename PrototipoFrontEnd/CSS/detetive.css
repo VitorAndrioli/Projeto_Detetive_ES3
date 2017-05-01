@@ -2,6 +2,12 @@
     display: none !important;
 }
 
+.btn-inverse{
+    width:100% !important;
+    background:black !important;
+    color:white !important;
+}
+
 .porta {
     background: brown;
 }
@@ -122,8 +128,13 @@ body {
 
 .dados{
     position:absolute;
-    top:83%;
+    top:73%;
     right:20%;
+    font-size: 56px;
+    color:white;
+    background-color:rgb(38, 58, 74) ;
+    padding: 5px 5px 5px 5px;
+    border-radius: 28px;
 }
 
 .palpite{
@@ -242,4 +253,67 @@ body {
 
 .banir {
     border: 3px solid #d0d0d0;
+}
+
+.casaDispo{
+    background: rgba(0, 0, 255, 0.45);
+}
+
+.peao{
+    height: 45px;
+    display: block;
+    margin:auto;
+}
+
+.jogador_ativo{
+    background:red !important;
+}
+
+.lancar_dados{
+    position: absolute;
+    top:40%;
+    left:35%;
+    width:250px;
+}
+
+.lancar_dados .titulo{
+    width: 100%;
+    height: 25px;
+    text-align: center;
+    background-color: orange;
+    color: white;
+    border-radius: 6px 6px 0px 0px;
+    font-weight: bold;
+}
+
+.resultado{
+    position: absolute;
+    top:26%;
+    left:30%;
+    width: 30%;
+}
+
+.resultado .titulo{
+    color:white;
+    width: 100%;
+    height: 35px;
+    font-weight: bold;
+    padding: 5px;
+    text-align: center;
+    display: block;
+    margin:auto;
+    background-color: orange;
+    border-radius: 6px 6px 0px 0px;
+}
+
+.resultado .conteudo{
+    background: #263A4A;
+    color: white;
+    height: auto;
+    padding: 5px;
+    border-radius:  0px 0px 6px 6px;
+}
+
+.numeroCasas{
+    font-size: 100px;
 }
