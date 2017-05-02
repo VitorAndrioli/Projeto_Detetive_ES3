@@ -6,6 +6,7 @@ import br.fatecsp.engsoft.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +32,7 @@ public class DeckController {
 	private String fileLocation;
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ModelAndView listAll(@PathVariable Long id) {
 		ModelAndView model = new ModelAndView("deck");
 		model.addObject("cards", cardService.findAllByTheme(id));
@@ -39,6 +41,7 @@ public class DeckController {
 	}
 
 	@PostMapping(value = "/card", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ModelAndView register(@RequestParam("photo") MultipartFile photoFile, @RequestParam("name") String name,
 			@RequestParam("type") String type
 
@@ -51,6 +54,7 @@ public class DeckController {
 	}
 
 	@RequestMapping(value = "/card/{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ModelAndView edit(@PathVariable("id") Long id) {
 		ModelAndView model = new ModelAndView("editarCarta");
 		model.addObject("card", cardService.getById(id));
@@ -58,6 +62,7 @@ public class DeckController {
 	}
 
 	@PostMapping(value = "/card/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ModelAndView update(@PathVariable("id") Long id, @RequestParam("photo") MultipartFile photoFile,
 			@RequestParam("name") String name, @RequestParam("type") String type) {
 		String cardSrc = "";
@@ -77,6 +82,7 @@ public class DeckController {
 	}
 
 	@RequestMapping(value = "/card/remove/{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ModelAndView register(@PathVariable("id") Long id) {
 		Long themeId = (Long) session.getAttribute("theme");
 		cardService.remove(id);

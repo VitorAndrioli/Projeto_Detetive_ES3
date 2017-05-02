@@ -8,4 +8,6 @@ import br.fatecsp.engsoft.entities.Role;
 @Repository
 public interface RoleRepository extends CrudRepository<Role, Long>{
 
+	Role findByName(String name);	
+	
 }

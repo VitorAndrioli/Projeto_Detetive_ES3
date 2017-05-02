@@ -7,7 +7,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Login</title>
-<head>
 <link rel="stylesheet" type="text/css"
 	href="${contextPath}/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 </head>
