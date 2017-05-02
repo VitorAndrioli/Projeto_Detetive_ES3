@@ -1,0 +1,18 @@
+.wait-room {
+  width: 40%;
+  margin-top: 35px;
+  padding: 0;
+  margin-left: 10px;
+}
+
+.mat-card-header {
+  color: white;
+  background: gold;
+  padding-top: 15px;
+  border-radius: inherit;
+}
+.mat-card-actions {
+    margin-left: 16px;
+    margin-right: 0px;
+    padding: 0;
+}

@@ -21,7 +21,7 @@ npm install
 
 pra rodar o prj localmente:
 
-ng serve (na pasta front)
+npm start (na pasta front)
 
 ## Back-end
 

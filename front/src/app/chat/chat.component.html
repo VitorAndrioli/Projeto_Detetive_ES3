@@ -1,0 +1,24 @@
+<md-card class="chat-room">
+  <md-card-header color="accent">
+    <md-card-title>Chat</md-card-title>
+  </md-card-header>
+  <md-card-content class="chat-content">
+      <div class="scrolling-content">
+        <md-list>
+          <md-list-item *ngFor="let message of chat">
+            <b *ngIf="!message.system">{{message.user}}: </b>
+            <p> {{message.text}} </p>
+          </md-list-item>
+        </md-list>
+    
+      </div>
+        <md-card-actions flex>
+          <md-input-container>
+            <input mdInput placeholder="" [(ngModel)]="messageText">
+          </md-input-container>
+          <button md-raised-button color="accent" (click)="sendMsg()">enviar</button>
+        </md-card-actions>
+      
+  </md-card-content>
+
+</md-card>

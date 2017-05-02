@@ -3,6 +3,7 @@ package br.fatecsp.engsoft.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +22,14 @@ public class ThemeController {
 	private ThemeService themeService;
 
 	@RequestMapping(method = RequestMethod.POST)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ModelAndView register(ThemeRequest request) {
 		themeService.register(request);
 		return listAll();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ModelAndView update(@PathVariable("id") Long id,ThemeRequest request) {
 		themeService.update(id,request);
 		return listAll();
@@ -34,6 +37,7 @@ public class ThemeController {
 
 	
 	@RequestMapping(method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ModelAndView listAll() {
 		ModelAndView model = new ModelAndView("themes");
 		List<Theme> themes = themeService.findAll();
@@ -42,12 +46,14 @@ public class ThemeController {
 	}
 	
 	@RequestMapping(value="/remove/{id}",method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ModelAndView remove(@PathVariable("id") Long id){
 		themeService.remove(id);
 		return listAll();
 	}
 	
 	@RequestMapping(value="/{id}",method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ModelAndView edit(@PathVariable("id") Long id){
 		ModelAndView model = new ModelAndView("editTheme");
 		model.addObject("theme",themeService.find(id));
