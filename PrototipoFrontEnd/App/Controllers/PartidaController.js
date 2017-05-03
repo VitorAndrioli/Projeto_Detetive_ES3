@@ -81,9 +81,15 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
 
          $('#peao_'+jogadorAnterior.id).parent().removeClass('jogador_ativo');
          $('#peao_'+jogadorAtual.id).parent().addClass('jogador_ativo');
-
+        $scope.RemoverAcaoAndar();   
          $('.lancar_dados').show();
          $scope.IniciarTimer();
+    }
+
+    $scope.RemoverAcaoAndar = function(){
+        $('div.casaDispo').unbind( "click" );
+        $('div.casaDispo').removeClass('casaDispo');
+
     }
 
     $scope.PararDados = function(){
@@ -95,12 +101,92 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         setTimeout(function(){
             $('.resultado').hide();
         },3000);
-        $scope.mostrarCaminhosDisponiveis();
+        $scope.mostrarCaminhosDisponiveis(false);
     }
 
-    $scope.mostrarCaminhosDisponiveis = function(){
-        
+    $scope.mostrarCaminhosDisponiveis = function(repetida){
+        var posicao = $scope.partida.jogadores[4].posicao;
+        if(!repetida){
+            $scope.caminho = [];
+            $scope.partida.jogadores[4].posicaoImutavel = posicao;
+        }
+
+        if($scope.caminho.length >= $scope.numeroJogadas)
+            return;
+
+        var disponibilidades = [
+            {
+                row: posicao[0] - 1,
+                col: posicao[1]
+            },
+            {
+                row: posicao[0] + 1,
+                col: posicao[1]
+            },
+            {
+                row: posicao[0] ,
+                col: posicao[1] - 1
+            },
+            {
+                row: posicao[0] ,
+                col: posicao[1] + 1
+            }
+        ];
+
+        for(var i = 0;i < disponibilidades.length;i++){
+            var row = disponibilidades[i].row;
+            var col = disponibilidades[i].col;
+            var div = $('#'+row+'_'+col);
+            
+            if($scope.PossoAndarNaCasa(div))
+                div.addClass('casaDispo');
+
+        }
+        $scope.HabilitarClickAndar();
+
     }
+
+    $scope.caminho = [];
+    $scope.HabilitarClickAndar = function(){
+        $('.casaDispo').click(function(){
+
+            if($(this).hasClass('porta'))
+            {
+                alert('deseja entrar?')
+            }
+
+            $scope.RemoverAcaoAndar();
+            
+            var id = $(this).attr('id').split('_');
+            
+            $scope.partida.jogadores[4].posicao = [+id[0], +id[1]];
+
+            $scope.caminho.push(id);
+            
+            $scope.mostrarCaminhosDisponiveis(true);
+
+
+        });
+    }
+
+    $scope.PossoAndarNaCasa = function(div){
+        if(div.attr('id') == undefined)
+            return false;
+        
+        var classes = div.attr('class').split(' ');
+
+        for(var i = 0; i< classes.length;i++){
+            if(classes[i].indexOf('local') != -1)
+                return false;
+        }
+
+        if(div.find('img').length != 0)
+             return false;
+
+         return true;
+    }
+
+    
 
     $scope.PerdeuAVez = function(){
         $interval.cancel(interval);
