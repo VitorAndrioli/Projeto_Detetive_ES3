@@ -191,7 +191,6 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
 
             $scope.DeslocarImg();
 
-            
             if($scope.numeroJogadas > 0){
                 $scope.mostrarCaminhosDisponiveis();
             }else{
@@ -219,8 +218,14 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
     }
 
     $scope.PegarLocalComodo = function(local){
-        var random = Math.floor(Math.random()*10);
-        return $("."+local).eq(random);
+        var qtdeImg = 0;
+        var div;
+        do{
+            var random = Math.floor(Math.random()*10);
+            div =  $("."+local).eq(random);
+            qtdeImg = div.find('img');
+        }while(qtdeImg == 0);
+        return div;
     }
 
     $scope.PosicionarImgNoComodo = function(local){
@@ -236,7 +241,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
     }
 
     $scope.PosicaoEhPorta = function(div){
-        if(div.hasClass('porta') && $scope.numeroJogadas > 0){
+        if(div.hasClass('porta') && $scope.numeroJogadas > 1){
             var resultado = confirm('Deseja entrar?');
             if(resultado){
                 $scope.RemoverAcaoAndar();
@@ -244,6 +249,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
 
                 var local = div.attr('comodo');
                 $scope.PosicionarImgNoComodo(local);
+                
 
                 return true;
             }
@@ -275,6 +281,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         $scope.mostrarTimer = false;
         $('.lancar_dados').hide();
         $('.resultado').hide();
+        $scope.ProximaJogada();
     }
 
     var interval;
