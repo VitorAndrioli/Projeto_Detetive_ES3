@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="CSS/local.css" />
 </head>
 <body ng-controller="PartidaController">
-    {{caminho}}
 
     <div class="resultado" style="display:none">
         <div class="titulo">
@@ -158,7 +157,7 @@
     </div>
 
     <div class="row">
-        <div id="divTabuleiro" class="pull-left">
+        <div id="divTabuleiro" class="pull-left dragscroll">
             <div class="campo">
                 <div class="linha">
                     <div id="1_1" class="item_tab local1 posicao11"></div>
@@ -222,7 +221,7 @@
                     <div id="3_5" class="item_tab local1 posicao35"></div>
                     <div id="3_6" class="item_tab local1 posicao36"></div>
                     <div id="3_7" class="item_tab local1 posicao37"></div>
-                    <div id="3_8" class="item_tab porta pl"></div>
+                    <div id="3_8" class="item_tab porta pl" comodo="local1"></div>
                     <div id="3_9" class="item_tab"></div>
                     <div id="3_10" class="item_tab"></div>
                     <div id="3_11" class="item_tab local2 posicao31"></div>
@@ -334,7 +333,7 @@
                     <div id="7_9"  class="item_tab"></div>
                     <div id="7_10" class="item_tab"></div>
                     <div id="7_11" class="item_tab"></div>
-                    <div id="7_12" class="item_tab porta pt"></div>
+                    <div id="7_12" class="item_tab porta pt" comodo="local2"></div>
                     <div id="7_13" class="item_tab"></div>
                     <div id="7_14" class="item_tab"></div>
                     <div id="7_15" class="item_tab"></div>
@@ -344,7 +343,7 @@
                     <div id="7_19" class="item_tab"></div>
                     <div id="7_20" class="item_tab"></div>
                     <div id="7_21" class="item_tab"></div>
-                    <div id="7_22" class="item_tab porta pt"></div>
+                    <div id="7_22" class="item_tab porta pt" comodo="local3"></div>
                     <div id="7_23" class="item_tab"></div>
                     <div id="7_24" class="item_tab"></div>
                     <div id="7_25" class="item_tab"></div>
@@ -373,7 +372,7 @@
                     <div id="8_21" class="item_tab"></div>
                     <div id="8_22" class="item_tab"></div>
                     <div id="8_23" class="item_tab"></div>
-                    <div id="8_24" class="item_tab porta"></div>
+                    <div id="8_24" class="item_tab porta" comodo="local6"></div>
                     <div id="8_25" class="item_tab"></div>
                 </div>
                 <div class="linha">
@@ -383,7 +382,7 @@
                     <div id="9_4"  class="item_tab local4 posicao24"></div>
                     <div id="9_5"  class="item_tab local4 posicao25"></div>
                     <div id="9_6"  class="item_tab local4 posicao26"></div>
-                    <div id="9_7"  class="item_tab porta pl"></div>
+                    <div id="9_7"  class="item_tab porta pl" comodo="local4"></div>
                     <div id="9_8"  class="item_tab"></div>
                     <div id="9_9"  class="item_tab"></div>
                     <div id="9_10" class="item_tab local5 posicao11"></div>
@@ -422,7 +421,7 @@
                     <div id="10_16" class="item_tab local5 posicao27"></div>
                     <div id="10_17" class="item_tab"></div>
                     <div id="10_18" class="item_tab"></div>
-                    <div id="10_19" class="item_tab porta pr"></div>
+                    <div id="10_19" class="item_tab porta pr" comodo="local6"></div>
                     <div id="10_20" class="item_tab local6 posicao21"></div>
                     <div id="10_21" class="item_tab local6 posicao22"></div>
                     <div id="10_22" class="item_tab local6 posicao23"></div>
@@ -493,7 +492,7 @@
                     <div id="13_6"  class="item_tab local7 posicao16"></div>
                     <div id="13_7"  class="item_tab"></div>
                     <div id="13_8"  class="item_tab"></div>
-                    <div id="13_9"  class="item_tab porta pr"></div>
+                    <div id="13_9"  class="item_tab porta pr" comodo="local5"></div>
                     <div id="13_10" class="item_tab local5 posicao51"></div>
                     <div id="13_11" class="item_tab local5 posicao52"></div>
                     <div id="13_12" class="item_tab local5 posicao53"></div>
@@ -501,7 +500,7 @@
                     <div id="13_14" class="item_tab local5 posicao55"></div>
                     <div id="13_15" class="item_tab local5 posicao56"></div>
                     <div id="13_16" class="item_tab local5 posicao57"></div>
-                    <div id="13_17" class="item_tab porta pl"></div>
+                    <div id="13_17" class="item_tab porta pl" comodo="local5"></div>
                     <div id="13_18" class="item_tab"></div>
                     <div id="13_19" class="item_tab"></div>
                     <div id="13_20" class="item_tab"></div>
@@ -509,7 +508,7 @@
                     <div id="13_22" class="item_tab"></div>
                     <div id="13_23" class="item_tab"></div>
                     <div id="13_24" class="item_tab"></div>
-                    <div id="13_25" class="item_tab porta pb"></div>
+                    <div id="13_25" class="item_tab porta pb" comodo="local8"></div>
                 </div>
                 <div class="linha">
                     <div id="14_1"  class="item_tab local7 posicao21"></div>
@@ -572,7 +571,7 @@
                     <div id="16_4"  class="item_tab local7 posicao44"></div>
                     <div id="16_5"  class="item_tab local7 posicao45"></div>
                     <div id="16_6"  class="item_tab local7 posicao46"></div>
-                    <div id="16_7"  class="item_tab porta pl"></div>
+                    <div id="16_7"  class="item_tab porta pl" comodo="local7"></div>
                     <div id="16_8"  class="item_tab"></div>
                     <div id="16_9"  class="item_tab"></div>
                     <div id="16_10" class="item_tab local5 posicao81"></div>
@@ -584,7 +583,7 @@
                     <div id="16_16" class="item_tab local5 posicao87"></div>
                     <div id="16_17" class="item_tab"></div>
                     <div id="16_18" class="item_tab"></div>
-                    <div id="16_19" class="item_tab porta pr"></div>
+                    <div id="16_19" class="item_tab porta pr" comodo="local8"></div>
                     <div id="16_20" class="item_tab local8 posicao31"></div>
                     <div id="16_21" class="item_tab local8 posicao32"></div>
                     <div id="16_22" class="item_tab local8 posicao33"></div>
@@ -649,7 +648,7 @@
                 <div class="linha">
                     <div id="19_1"  class="item_tab"></div>
                     <div id="19_2"  class="item_tab"></div>
-                    <div id="19_3"  class="item_tab porta pt"></div>
+                    <div id="19_3"  class="item_tab porta pt" comodo="local7"></div>
                     <div id="19_4"  class="item_tab"></div>
                     <div id="19_5"  class="item_tab"></div>
                     <div id="19_6"  class="item_tab"></div>
@@ -677,7 +676,7 @@
                     <div  id="20_1"  class="item_tab"></div>
                     <div  id="20_2"  class="item_tab"></div>
                     <div  id="20_3"  class="item_tab"></div>
-                    <div  id="20_4"  class="item_tab porta pb"></div>
+                    <div  id="20_4"  class="item_tab porta pb" comodo="local9"></div>
                     <div  id="20_5"  class="item_tab"></div>
                     <div  id="20_6"  class="item_tab"></div>
                     <div  id="20_7"  class="item_tab"></div>
@@ -697,7 +696,7 @@
                     <div  id="20_21" class="item_tab"></div>
                     <div  id="20_22" class="item_tab"></div>
                     <div  id="20_23" class="item_tab"></div>
-                    <div  id="20_24" class="item_tab porta pb"></div>
+                    <div  id="20_24" class="item_tab porta pb" comodo="local11"></div>
                     <div  id="20_25" class="item_tab"></div>
                 </div>
                 <div class="linha">
@@ -734,7 +733,7 @@
                     <div id="22_4"  class="item_tab local9 posicao24"></div>
                     <div id="22_5"  class="item_tab local9 posicao25"></div>
                     <div id="22_6"  class="item_tab local9 posicao26"></div>
-                    <div id="22_7"  class="item_tab porta pl"></div>
+                    <div id="22_7"  class="item_tab porta pl" comodo="local9"></div>
                     <div id="22_8"  class="item_tab"></div>
                     <div id="22_9"  class="item_tab"></div>
                     <div id="22_10" class="item_tab local10 posicao31"></div>
@@ -744,7 +743,7 @@
                     <div id="22_14" class="item_tab local10 posicao35"></div>
                     <div id="22_15" class="item_tab local10 posicao36"></div>
                     <div id="22_16" class="item_tab local10 posicao37"></div>
-                    <div id="22_17" class="item_tab porta pl"></div>
+                    <div id="22_17" class="item_tab porta pl" comodo="local10"></div>
                     <div id="22_18" class="item_tab"></div>
                     <div id="22_19" class="item_tab"></div>
                     <div id="22_20" class="item_tab local11 posicao21"></div>
@@ -773,7 +772,7 @@
                     <div id="23_16" class="item_tab local10 posicao47"></div>
                     <div id="23_17" class="item_tab"></div>
                     <div id="23_18" class="item_tab"></div>
-                    <div id="23_19" class="item_tab porta pb"></div>
+                    <div id="23_19" class="item_tab porta pb" comodo="local11"></div>
                     <div id="23_20" class="item_tab local11 posicao31"></div>
                     <div id="23_21" class="item_tab local11 posicao32"></div>
                     <div id="23_22" class="item_tab local11 posicao33"></div>
@@ -790,7 +789,7 @@
                     <div id="24_6"  class="item_tab local9 posicao46"></div>
                     <div id="24_7"  class="item_tab"></div>
                     <div id="24_8"  class="item_tab"></div>
-                    <div id="24_9"  class="item_tab porta pb"></div>
+                    <div id="24_9"  class="item_tab porta pb" comodo="local10"></div>
                     <div id="24_10" class="item_tab local10 posicao51"></div>
                     <div id="24_11" class="item_tab local10 posicao52"></div>
                     <div id="24_12" class="item_tab local10 posicao53"></div>
@@ -900,7 +899,7 @@
 
     <div class="todos_personagens">
         <img class="perfil_grid"
-             ng-class="{'active': $index == 4 }"
+             ng-class="{'active': $index == indiceJogadorAtual }"
              ng-repeat="jogador in partida.jogadores"
              ng-src="{{jogador.src}}" />
     </div>
@@ -912,6 +911,7 @@
     </div>
 
     <div class="dados" ng-show="mostrarTimer">
+        <span ng-if="numeroJogadas != 0">{{numeroJogadas}}</span>
         <i class="fa fa-clock-o" aria-hidden="true"></i>
        {{tempo}}
     </div>
