@@ -1,7 +1,7 @@
 detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval',function ($scope, DetetiveApi,$interval) {        
 
     $scope.numeroJogadas = 0;
-    
+    $scope.palpite = {};
     $scope.indiceJogadorAtual = 0;
 
     $scope.JogadorAtual = function(){
@@ -10,6 +10,11 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
 
     $scope.JogadorAnterior = function(){
         return $scope.partida.jogadores[$scope.partida.jogadores.length - 1];
+    }
+
+    $scope.EnviarPalpite = function(){
+        $scope.ProximaJogada();
+        $('#palpiteModal').hide();
     }
 
     $scope.DefinirEstilo = function(imagemDoFundo, corBordas, locais){
@@ -240,6 +245,23 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         
     }
 
+    $scope.AbrirModalPalpite = function(){
+        $('#palpiteModal').show();
+        $scope.palpite = {};
+    }
+
+    $scope.setPalpite = function(nome,carta){
+        $scope.palpite[nome] = carta;
+    }
+
+    $scope.DesabilitarPalpite = function(){
+        return (
+            $scope.palpite.suspeito == undefined ||
+            $scope.palpite.arma == undefined ||
+            $scope.palpite.local == undefined 
+        );
+    }
+
     $scope.PosicaoEhPorta = function(div){
         if(div.hasClass('porta') && $scope.numeroJogadas > 1){
             var resultado = confirm('Deseja entrar?');
@@ -248,8 +270,11 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
                 $scope.numeroJogadas = 0;
 
                 var local = div.attr('comodo');
+                var posicao = div.attr('id').split('_');
+                var jogadorAtual = $scope.JogadorAtual();
+                jogadorAtual.posicao = [+posicao[0], +posicao[1]];
                 $scope.PosicionarImgNoComodo(local);
-                
+                $scope.AbrirModalPalpite();
 
                 return true;
             }
@@ -281,6 +306,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         $scope.mostrarTimer = false;
         $('.lancar_dados').hide();
         $('.resultado').hide();
+        $('#palpiteModal').hide();
         $scope.ProximaJogada();
     }
 

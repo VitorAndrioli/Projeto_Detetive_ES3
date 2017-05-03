@@ -318,3 +318,7 @@ body {
 .numeroCasas{
     font-size: 100px;
 }
+
+.click{
+    cursor: pointer;
+}
