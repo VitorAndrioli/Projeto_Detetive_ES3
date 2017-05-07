@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="DetetiveApp" ng-cloak>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,10 +14,12 @@
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
 
     <style id="styleDynamic">
+
     </style>
 
     <link rel="stylesheet" href="CSS/local.css" />
 </head>
+
 <body ng-controller="PartidaController">
 
     <div class="resultado" style="display:none">
@@ -25,7 +28,7 @@
         </div>
         <div class="conteudo">
             <div style="text-align:center">
-                Você poderá andar<br>    
+                Você poderá andar<br>
                 <span id="qtdeCasas" class="numeroCasas"> {{numeroJogadas}} </span>
             </div>
         </div>
@@ -43,6 +46,55 @@
         </button>
     </div>
 
+    <div class="modal fade in" id="palpiteModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Palpite</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="carta carta_sombra personagem click" 
+                                ng-class="{'carta_ativa': palpite.suspeito == item }"
+                                ng-repeat="item in partida.barraAnotacao.suspeitos" ng-click="setPalpite('suspeito',item)"
+                                ng-if="!item.selecionado">
+                                <div class="perfil" style="background-image: url({{item.carta.src}}) "></div>
+                                <span class="nome">{{item.carta.nome}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="carta arma carta_sombra click" ng-repeat="item in partida.barraAnotacao.armas" ng-click="setPalpite('arma',item)"
+                                ng-class="{'carta_ativa': palpite.arma == item }"
+                                ng-if="!item.selecionado">
+                                <div class="perfil" style="background-image: url({{item.carta.src}}) "></div>
+                                <span class="nome">{{item.carta.nome}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="carta local carta_sombra click" ng-repeat="item in partida.barraAnotacao.locais" ng-click="setPalpite('local',item)"
+                            ng-class="{'carta_ativa': palpite.local == item }"
+                                ng-if="!item.selecionado">
+                                <div class="perfil" style="background-image: url({{item.carta.src}}) "></div>
+                                <span class="nome">{{item.carta.nome}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" ng-disabled="DesabilitarPalpite()" ng-click="EnviarPalpite()">
+                         Enviar Palpite
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade in" id="cartasModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -53,37 +105,17 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="carta carta_sombra personagem">
-                                <div class="perfil" style="background-image: url({{personagens[0].src}}) "></div>
-                                <span class="nome">{{personagens[0].nome}}</span>
+                            <div class="carta carta_sombra personagem" ng-repeat="item in partida.barraAnotacao.suspeitos" ng-if="item.minhaCarta">
+                                <div class="perfil" style="background-image: url({{item.carta.src}}) "></div>
+                                <span class="nome">{{item.carta.nome}}</span>
                             </div>
-                            <div class="carta personagem carta_sombra">
-                                <div class="perfil" style="background-image: url({{personagens[2].src}}) "></div>
-                                <span class="nome">{{personagens[2].nome}}</span>
+                            <div class="carta arma carta_sombra" ng-repeat="item in partida.barraAnotacao.armas" ng-if="item.minhaCarta">
+                                <div class="perfil" style="background-image: url({{item.carta.src}}) "></div>
+                                <span class="nome">{{item.carta.nome}}</span>
                             </div>
-                            <div class="carta arma carta_sombra">
-                                <div class="perfil" style="background-image: url({{armas[0].src}}) "></div>
-                                <span class="nome">{{armas[0].nome}}</span>
-                            </div>
-                            <div class="carta arma carta_sombra">
-                                <div class="perfil" style="background-image: url({{armas[1].src}}) "></div>
-                                <span class="nome">{{armas[1].nome}}</span>
-                            </div>
-                            <div class="carta arma carta_sombra">
-                                <div class="perfil" style="background-image: url({{armas[3].src}}) "></div>
-                                <span class="nome">{{armas[3].nome}}</span>
-                            </div>
-                            <div class="carta local carta_sombra">
-                                <div class="perfil" style="background-image: url({{locais[0].src}}) "></div>
-                                <span class="nome">{{locais[0].nome}}</span>
-                            </div>
-                            <div class="carta local carta_sombra">
-                                <div class="perfil" style="background-image: url({{locais[3].src}}) "></div>
-                                <span class="nome">{{locais[3].nome}}</span>
-                            </div>
-                            <div class="carta local carta_sombra">
-                                <div class="perfil" style="background-image: url({{locais[6].src}}) "></div>
-                                <span class="nome">{{locais[6].nome}}</span>
+                            <div class="carta local carta_sombra" ng-repeat="item in partida.barraAnotacao.locais" ng-if="item.minhaCarta">
+                                <div class="perfil" style="background-image: url({{item.carta.src}}) "></div>
+                                <span class="nome">{{item.carta.nome}}</span>
                             </div>
                         </div>
                     </div>
@@ -105,12 +137,13 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div ng-class="{'banir' : jogador.nome == jogadorParaBanir.nome}" class="carta personagem" ng-repeat="jogador in jogadores" ng-click="SelecBanir(jogador)">
+                            <div ng-class="{'banir' : jogador.nome == jogadorParaBanir.nome}" class="carta personagem" ng-repeat="jogador in jogadores"
+                                ng-click="SelecBanir(jogador)">
                                 <div class="perfil" style="background-image: url({{jogador.personagem}}) "></div>
                                 <span class="nome">{{jogador.nome}}</span>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                     <button class="btn btn-success" style="margin-top:50px;" ng-click="BanirJogador()" ng-disabled="jogadorParaBanir == null">
                         Banir
                     </button>
@@ -141,7 +174,8 @@
                             </div>
                             <div>
                                 <div class="inner-addon right-addon">
-                                    <input type="text" id="txtConteudo" class="form-control col-lg-12" placeholder="Digite sua mensagem, aperte ENTER para enviar" />
+                                    <input type="text" id="txtConteudo" class="form-control col-lg-12" placeholder="Digite sua mensagem, aperte ENTER para enviar"
+                                    />
                                     <i class="glyphicon glyphicon-plus"></i>
                                 </div>
 
@@ -221,7 +255,7 @@
                     <div id="3_5" class="item_tab local1 posicao35"></div>
                     <div id="3_6" class="item_tab local1 posicao36"></div>
                     <div id="3_7" class="item_tab local1 posicao37"></div>
-                    <div id="3_8" class="item_tab porta pl"></div>
+                    <div id="3_8" class="item_tab porta pl" comodo="local1"></div>
                     <div id="3_9" class="item_tab"></div>
                     <div id="3_10" class="item_tab"></div>
                     <div id="3_11" class="item_tab local2 posicao31"></div>
@@ -268,571 +302,571 @@
                     <div id="4_25" class="item_tab local3 posicao46"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local1 posicao51"></div>
-                    <div class="item_tab local1 posicao52"></div>
-                    <div class="item_tab local1 posicao53"></div>
-                    <div class="item_tab local1 posicao54"></div>
-                    <div class="item_tab local1 posicao55"></div>
-                    <div class="item_tab local1 posicao56"></div>
-                    <div class="item_tab local1 posicao57"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local2 posicao51"></div>
-                    <div class="item_tab local2 posicao52"></div>
-                    <div class="item_tab local2 posicao53"></div>
-                    <div class="item_tab local2 posicao54"></div>
-                    <div class="item_tab local2 posicao55"></div>
-                    <div class="item_tab local2 posicao56"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local3 posicao51"></div>
-                    <div class="item_tab local3 posicao52"></div>
-                    <div class="item_tab local3 posicao53"></div>
-                    <div class="item_tab local3 posicao54"></div>
-                    <div class="item_tab local3 posicao55"></div>
-                    <div class="item_tab local3 posicao56"></div>
+                    <div id="5_1" class="item_tab local1 posicao51"></div>
+                    <div id="5_2" class="item_tab local1 posicao52"></div>
+                    <div id="5_3" class="item_tab local1 posicao53"></div>
+                    <div id="5_4" class="item_tab local1 posicao54"></div>
+                    <div id="5_5" class="item_tab local1 posicao55"></div>
+                    <div id="5_6" class="item_tab local1 posicao56"></div>
+                    <div id="5_7" class="item_tab local1 posicao57"></div>
+                    <div id="5_8" class="item_tab"></div>
+                    <div id="5_9" class="item_tab"></div>
+                    <div id="5_10" class="item_tab"></div>
+                    <div id="5_11" class="item_tab local2 posicao51"></div>
+                    <div id="5_12" class="item_tab local2 posicao52"></div>
+                    <div id="5_13" class="item_tab local2 posicao53"></div>
+                    <div id="5_14" class="item_tab local2 posicao54"></div>
+                    <div id="5_15" class="item_tab local2 posicao55"></div>
+                    <div id="5_16" class="item_tab local2 posicao56"></div>
+                    <div id="5_17" class="item_tab"></div>
+                    <div id="5_18" class="item_tab"></div>
+                    <div id="5_19" class="item_tab"></div>
+                    <div id="5_20" class="item_tab local3 posicao51"></div>
+                    <div id="5_21" class="item_tab local3 posicao52"></div>
+                    <div id="5_22" class="item_tab local3 posicao53"></div>
+                    <div id="5_23" class="item_tab local3 posicao54"></div>
+                    <div id="5_24" class="item_tab local3 posicao55"></div>
+                    <div id="5_25" class="item_tab local3 posicao56"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local2 posicao61"></div>
-                    <div class="item_tab local2 posicao62"></div>
-                    <div class="item_tab local2 posicao63"></div>
-                    <div class="item_tab local2 posicao64"></div>
-                    <div class="item_tab local2 posicao65"></div>
-                    <div class="item_tab local2 posicao66"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local3 posicao61"></div>
-                    <div class="item_tab local3 posicao62"></div>
-                    <div class="item_tab local3 posicao63"></div>
-                    <div class="item_tab local3 posicao64"></div>
-                    <div class="item_tab local3 posicao65"></div>
-                    <div class="item_tab local3 posicao66"></div>
+                    <div id="6_1" class="item_tab"></div>
+                    <div id="6_2" class="item_tab"></div>
+                    <div id="6_3" class="item_tab"></div>
+                    <div id="6_4" class="item_tab"></div>
+                    <div id="6_5" class="item_tab"></div>
+                    <div id="6_6" class="item_tab"></div>
+                    <div id="6_7" class="item_tab"></div>
+                    <div id="6_8" class="item_tab"></div>
+                    <div id="6_9" class="item_tab"></div>
+                    <div id="6_10" class="item_tab"></div>
+                    <div id="6_11" class="item_tab local2 posicao61"></div>
+                    <div id="6_12" class="item_tab local2 posicao62"></div>
+                    <div id="6_13" class="item_tab local2 posicao63"></div>
+                    <div id="6_14" class="item_tab local2 posicao64"></div>
+                    <div id="6_15" class="item_tab local2 posicao65"></div>
+                    <div id="6_16" class="item_tab local2 posicao66"></div>
+                    <div id="6_17" class="item_tab"></div>
+                    <div id="6_18" class="item_tab"></div>
+                    <div id="6_19" class="item_tab"></div>
+                    <div id="6_20" class="item_tab local3 posicao61"></div>
+                    <div id="6_21" class="item_tab local3 posicao62"></div>
+                    <div id="6_22" class="item_tab local3 posicao63"></div>
+                    <div id="6_23" class="item_tab local3 posicao64"></div>
+                    <div id="6_24" class="item_tab local3 posicao65"></div>
+                    <div id="6_25" class="item_tab local3 posicao66"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab porta pt"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab porta pt"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
+                    <div id="7_1" class="item_tab"></div>
+                    <div id="7_2" class="item_tab"></div>
+                    <div id="7_3" class="item_tab"></div>
+                    <div id="7_4" class="item_tab"></div>
+                    <div id="7_5" class="item_tab"></div>
+                    <div id="7_6" class="item_tab"></div>
+                    <div id="7_7" class="item_tab"></div>
+                    <div id="7_8" class="item_tab"></div>
+                    <div id="7_9" class="item_tab"></div>
+                    <div id="7_10" class="item_tab"></div>
+                    <div id="7_11" class="item_tab"></div>
+                    <div id="7_12" class="item_tab porta pt" comodo="local2"></div>
+                    <div id="7_13" class="item_tab"></div>
+                    <div id="7_14" class="item_tab"></div>
+                    <div id="7_15" class="item_tab"></div>
+                    <div id="7_16" class="item_tab"></div>
+                    <div id="7_17" class="item_tab"></div>
+                    <div id="7_18" class="item_tab"></div>
+                    <div id="7_19" class="item_tab"></div>
+                    <div id="7_20" class="item_tab"></div>
+                    <div id="7_21" class="item_tab"></div>
+                    <div id="7_22" class="item_tab porta pt" comodo="local3"></div>
+                    <div id="7_23" class="item_tab"></div>
+                    <div id="7_24" class="item_tab"></div>
+                    <div id="7_25" class="item_tab"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local4 posicao11"></div>
-                    <div class="item_tab local4 posicao12"></div>
-                    <div class="item_tab local4 posicao13"></div>
-                    <div class="item_tab local4 posicao14"></div>
-                    <div class="item_tab local4 posicao15"></div>
-                    <div class="item_tab local4 posicao16"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab porta"></div>
-                    <div class="item_tab"></div>
+                    <div id="8_1" class="item_tab local4 posicao11"></div>
+                    <div id="8_2" class="item_tab local4 posicao12"></div>
+                    <div id="8_3" class="item_tab local4 posicao13"></div>
+                    <div id="8_4" class="item_tab local4 posicao14"></div>
+                    <div id="8_5" class="item_tab local4 posicao15"></div>
+                    <div id="8_6" class="item_tab local4 posicao16"></div>
+                    <div id="8_7" class="item_tab"></div>
+                    <div id="8_8" class="item_tab"></div>
+                    <div id="8_9" class="item_tab"></div>
+                    <div id="8_10" class="item_tab"></div>
+                    <div id="8_11" class="item_tab"></div>
+                    <div id="8_12" class="item_tab"></div>
+                    <div id="8_13" class="item_tab"></div>
+                    <div id="8_14" class="item_tab"></div>
+                    <div id="8_15" class="item_tab"></div>
+                    <div id="8_16" class="item_tab"></div>
+                    <div id="8_17" class="item_tab"></div>
+                    <div id="8_18" class="item_tab"></div>
+                    <div id="8_19" class="item_tab"></div>
+                    <div id="8_20" class="item_tab"></div>
+                    <div id="8_21" class="item_tab"></div>
+                    <div id="8_22" class="item_tab"></div>
+                    <div id="8_23" class="item_tab"></div>
+                    <div id="8_24" class="item_tab porta" comodo="local6"></div>
+                    <div id="8_25" class="item_tab"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local4 posicao21"></div>
-                    <div class="item_tab local4 posicao22"></div>
-                    <div class="item_tab local4 posicao23"></div>
-                    <div class="item_tab local4 posicao24"></div>
-                    <div class="item_tab local4 posicao25"></div>
-                    <div class="item_tab local4 posicao26"></div>
-                    <div class="item_tab porta pl"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local5 posicao11"></div>
-                    <div class="item_tab local5 posicao12"></div>
-                    <div class="item_tab local5 posicao13"></div>
-                    <div class="item_tab local5 posicao14"></div>
-                    <div class="item_tab local5 posicao15"></div>
-                    <div class="item_tab local5 posicao16"></div>
-                    <div class="item_tab local5 posicao17"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local6 posicao11"></div>
-                    <div class="item_tab local6 posicao12"></div>
-                    <div class="item_tab local6 posicao13"></div>
-                    <div class="item_tab local6 posicao14"></div>
-                    <div class="item_tab local6 posicao15"></div>
-                    <div class="item_tab local6 posicao16"></div>
+                    <div id="9_1" class="item_tab local4 posicao21"></div>
+                    <div id="9_2" class="item_tab local4 posicao22"></div>
+                    <div id="9_3" class="item_tab local4 posicao23"></div>
+                    <div id="9_4" class="item_tab local4 posicao24"></div>
+                    <div id="9_5" class="item_tab local4 posicao25"></div>
+                    <div id="9_6" class="item_tab local4 posicao26"></div>
+                    <div id="9_7" class="item_tab porta pl" comodo="local4"></div>
+                    <div id="9_8" class="item_tab"></div>
+                    <div id="9_9" class="item_tab"></div>
+                    <div id="9_10" class="item_tab local5 posicao11"></div>
+                    <div id="9_11" class="item_tab local5 posicao12"></div>
+                    <div id="9_12" class="item_tab local5 posicao13"></div>
+                    <div id="9_13" class="item_tab local5 posicao14"></div>
+                    <div id="9_14" class="item_tab local5 posicao15"></div>
+                    <div id="9_15" class="item_tab local5 posicao16"></div>
+                    <div id="9_16" class="item_tab local5 posicao17"></div>
+                    <div id="9_17" class="item_tab"></div>
+                    <div id="9_18" class="item_tab"></div>
+                    <div id="9_19" class="item_tab"></div>
+                    <div id="9_20" class="item_tab local6 posicao11"></div>
+                    <div id="9_21" class="item_tab local6 posicao12"></div>
+                    <div id="9_22" class="item_tab local6 posicao13"></div>
+                    <div id="9_23" class="item_tab local6 posicao14"></div>
+                    <div id="9_24" class="item_tab local6 posicao15"></div>
+                    <div id="9_25" class="item_tab local6 posicao16"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local4 posicao31"></div>
-                    <div class="item_tab local4 posicao32"></div>
-                    <div class="item_tab local4 posicao33"></div>
-                    <div class="item_tab local4 posicao34"></div>
-                    <div class="item_tab local4 posicao35"></div>
-                    <div class="item_tab local4 posicao36"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local5 posicao21"></div>
-                    <div class="item_tab local5 posicao22"></div>
-                    <div class="item_tab local5 posicao23"></div>
-                    <div class="item_tab local5 posicao24"></div>
-                    <div class="item_tab local5 posicao25"></div>
-                    <div class="item_tab local5 posicao26"></div>
-                    <div class="item_tab local5 posicao27"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab porta pr"></div>
-                    <div class="item_tab local6 posicao21"></div>
-                    <div class="item_tab local6 posicao22"></div>
-                    <div class="item_tab local6 posicao23"></div>
-                    <div class="item_tab local6 posicao24"></div>
-                    <div class="item_tab local6 posicao25"></div>
-                    <div class="item_tab local6 posicao26"></div>
+                    <div id="10_1" class="item_tab local4 posicao31"></div>
+                    <div id="10_2" class="item_tab local4 posicao32"></div>
+                    <div id="10_3" class="item_tab local4 posicao33"></div>
+                    <div id="10_4" class="item_tab local4 posicao34"></div>
+                    <div id="10_5" class="item_tab local4 posicao35"></div>
+                    <div id="10_6" class="item_tab local4 posicao36"></div>
+                    <div id="10_7" class="item_tab"></div>
+                    <div id="10_8" class="item_tab"></div>
+                    <div id="10_9" class="item_tab"></div>
+                    <div id="10_10" class="item_tab local5 posicao21"></div>
+                    <div id="10_11" class="item_tab local5 posicao22"></div>
+                    <div id="10_12" class="item_tab local5 posicao23"></div>
+                    <div id="10_13" class="item_tab local5 posicao24"></div>
+                    <div id="10_14" class="item_tab local5 posicao25"></div>
+                    <div id="10_15" class="item_tab local5 posicao26"></div>
+                    <div id="10_16" class="item_tab local5 posicao27"></div>
+                    <div id="10_17" class="item_tab"></div>
+                    <div id="10_18" class="item_tab"></div>
+                    <div id="10_19" class="item_tab porta pr" comodo="local6"></div>
+                    <div id="10_20" class="item_tab local6 posicao21"></div>
+                    <div id="10_21" class="item_tab local6 posicao22"></div>
+                    <div id="10_22" class="item_tab local6 posicao23"></div>
+                    <div id="10_23" class="item_tab local6 posicao24"></div>
+                    <div id="10_24" class="item_tab local6 posicao25"></div>
+                    <div id="10_25" class="item_tab local6 posicao26"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local4 posicao41"></div>
-                    <div class="item_tab local4 posicao42"></div>
-                    <div class="item_tab local4 posicao43"></div>
-                    <div class="item_tab local4 posicao44"></div>
-                    <div class="item_tab local4 posicao45"></div>
-                    <div class="item_tab local4 posicao46"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local5 posicao31"></div>
-                    <div class="item_tab local5 posicao32"></div>
-                    <div class="item_tab local5 posicao33"></div>
-                    <div class="item_tab local5 posicao34"></div>
-                    <div class="item_tab local5 posicao35"></div>
-                    <div class="item_tab local5 posicao36"></div>
-                    <div class="item_tab local5 posicao37"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local6 posicao31"></div>
-                    <div class="item_tab local6 posicao32"></div>
-                    <div class="item_tab local6 posicao33"></div>
-                    <div class="item_tab local6 posicao34"></div>
-                    <div class="item_tab local6 posicao35"></div>
-                    <div class="item_tab local6 posicao36"></div>
+                    <div id="11_1" class="item_tab local4 posicao41"></div>
+                    <div id="11_2" class="item_tab local4 posicao42"></div>
+                    <div id="11_3" class="item_tab local4 posicao43"></div>
+                    <div id="11_4" class="item_tab local4 posicao44"></div>
+                    <div id="11_5" class="item_tab local4 posicao45"></div>
+                    <div id="11_6" class="item_tab local4 posicao46"></div>
+                    <div id="11_7" class="item_tab"></div>
+                    <div id="11_8" class="item_tab"></div>
+                    <div id="11_9" class="item_tab"></div>
+                    <div id="11_10" class="item_tab local5 posicao31"></div>
+                    <div id="11_11" class="item_tab local5 posicao32"></div>
+                    <div id="11_12" class="item_tab local5 posicao33"></div>
+                    <div id="11_13" class="item_tab local5 posicao34"></div>
+                    <div id="11_14" class="item_tab local5 posicao35"></div>
+                    <div id="11_15" class="item_tab local5 posicao36"></div>
+                    <div id="11_16" class="item_tab local5 posicao37"></div>
+                    <div id="11_17" class="item_tab"></div>
+                    <div id="11_18" class="item_tab"></div>
+                    <div id="11_19" class="item_tab"></div>
+                    <div id="11_20" class="item_tab local6 posicao31"></div>
+                    <div id="11_21" class="item_tab local6 posicao32"></div>
+                    <div id="11_22" class="item_tab local6 posicao33"></div>
+                    <div id="11_23" class="item_tab local6 posicao34"></div>
+                    <div id="11_24" class="item_tab local6 posicao35"></div>
+                    <div id="11_25" class="item_tab local6 posicao36"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local5 posicao41"></div>
-                    <div class="item_tab local5 posicao42"></div>
-                    <div class="item_tab local5 posicao43"></div>
-                    <div class="item_tab local5 posicao44"></div>
-                    <div class="item_tab local5 posicao45"></div>
-                    <div class="item_tab local5 posicao46"></div>
-                    <div class="item_tab local5 posicao47"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local6 posicao41"></div>
-                    <div class="item_tab local6 posicao42"></div>
-                    <div class="item_tab local6 posicao43"></div>
-                    <div class="item_tab local6 posicao44"></div>
-                    <div class="item_tab local6 posicao45"></div>
-                    <div class="item_tab local6 posicao46"></div>
+                    <div id="12_1" class="item_tab"></div>
+                    <div id="12_2" class="item_tab"></div>
+                    <div id="12_3" class="item_tab"></div>
+                    <div id="12_4" class="item_tab"></div>
+                    <div id="12_5" class="item_tab"></div>
+                    <div id="12_6" class="item_tab"></div>
+                    <div id="12_7" class="item_tab"></div>
+                    <div id="12_8" class="item_tab"></div>
+                    <div id="12_9" class="item_tab"></div>
+                    <div id="12_10" class="item_tab local5 posicao41"></div>
+                    <div id="12_11" class="item_tab local5 posicao42"></div>
+                    <div id="12_12" class="item_tab local5 posicao43"></div>
+                    <div id="12_13" class="item_tab local5 posicao44"></div>
+                    <div id="12_14" class="item_tab local5 posicao45"></div>
+                    <div id="12_15" class="item_tab local5 posicao46"></div>
+                    <div id="12_16" class="item_tab local5 posicao47"></div>
+                    <div id="12_17" class="item_tab"></div>
+                    <div id="12_18" class="item_tab"></div>
+                    <div id="12_19" class="item_tab"></div>
+                    <div id="12_20" class="item_tab local6 posicao41"></div>
+                    <div id="12_21" class="item_tab local6 posicao42"></div>
+                    <div id="12_22" class="item_tab local6 posicao43"></div>
+                    <div id="12_23" class="item_tab local6 posicao44"></div>
+                    <div id="12_24" class="item_tab local6 posicao45"></div>
+                    <div id="12_25" class="item_tab local6 posicao46"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local7 posicao11"></div>
-                    <div class="item_tab local7 posicao12"></div>
-                    <div class="item_tab local7 posicao13"></div>
-                    <div class="item_tab local7 posicao14"></div>
-                    <div class="item_tab local7 posicao15"></div>
-                    <div class="item_tab local7 posicao16"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab porta pr"></div>
-                    <div class="item_tab local5 posicao51"></div>
-                    <div class="item_tab local5 posicao52"></div>
-                    <div class="item_tab local5 posicao53"></div>
-                    <div class="item_tab local5 posicao54"></div>
-                    <div class="item_tab local5 posicao55"></div>
-                    <div class="item_tab local5 posicao56"></div>
-                    <div class="item_tab local5 posicao57"></div>
-                    <div class="item_tab porta pl"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab porta pb"></div>
+                    <div id="13_1" class="item_tab local7 posicao11"></div>
+                    <div id="13_2" class="item_tab local7 posicao12"></div>
+                    <div id="13_3" class="item_tab local7 posicao13"></div>
+                    <div id="13_4" class="item_tab local7 posicao14"></div>
+                    <div id="13_5" class="item_tab local7 posicao15"></div>
+                    <div id="13_6" class="item_tab local7 posicao16"></div>
+                    <div id="13_7" class="item_tab"></div>
+                    <div id="13_8" class="item_tab"></div>
+                    <div id="13_9" class="item_tab porta pr" comodo="local5"></div>
+                    <div id="13_10" class="item_tab local5 posicao51"></div>
+                    <div id="13_11" class="item_tab local5 posicao52"></div>
+                    <div id="13_12" class="item_tab local5 posicao53"></div>
+                    <div id="13_13" class="item_tab local5 posicao54"></div>
+                    <div id="13_14" class="item_tab local5 posicao55"></div>
+                    <div id="13_15" class="item_tab local5 posicao56"></div>
+                    <div id="13_16" class="item_tab local5 posicao57"></div>
+                    <div id="13_17" class="item_tab porta pl" comodo="local5"></div>
+                    <div id="13_18" class="item_tab"></div>
+                    <div id="13_19" class="item_tab"></div>
+                    <div id="13_20" class="item_tab"></div>
+                    <div id="13_21" class="item_tab"></div>
+                    <div id="13_22" class="item_tab"></div>
+                    <div id="13_23" class="item_tab"></div>
+                    <div id="13_24" class="item_tab"></div>
+                    <div id="13_25" class="item_tab porta pb" comodo="local8"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local7 posicao21"></div>
-                    <div class="item_tab local7 posicao22"></div>
-                    <div class="item_tab local7 posicao23"></div>
-                    <div class="item_tab local7 posicao24"></div>
-                    <div class="item_tab local7 posicao25"></div>
-                    <div class="item_tab local7 posicao26"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local5 posicao61"></div>
-                    <div class="item_tab local5 posicao62"></div>
-                    <div class="item_tab local5 posicao63"></div>
-                    <div class="item_tab local5 posicao64"></div>
-                    <div class="item_tab local5 posicao65"></div>
-                    <div class="item_tab local5 posicao66"></div>
-                    <div class="item_tab local5 posicao67"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local8 posicao11"></div>
-                    <div class="item_tab local8 posicao12"></div>
-                    <div class="item_tab local8 posicao13"></div>
-                    <div class="item_tab local8 posicao14"></div>
-                    <div class="item_tab local8 posicao15"></div>
-                    <div class="item_tab local8 posicao16"></div>
+                    <div id="14_1" class="item_tab local7 posicao21"></div>
+                    <div id="14_2" class="item_tab local7 posicao22"></div>
+                    <div id="14_3" class="item_tab local7 posicao23"></div>
+                    <div id="14_4" class="item_tab local7 posicao24"></div>
+                    <div id="14_5" class="item_tab local7 posicao25"></div>
+                    <div id="14_6" class="item_tab local7 posicao26"></div>
+                    <div id="14_7" class="item_tab"></div>
+                    <div id="14_8" class="item_tab"></div>
+                    <div id="14_9" class="item_tab"></div>
+                    <div id="14_10" class="item_tab local5 posicao61"></div>
+                    <div id="14_11" class="item_tab local5 posicao62"></div>
+                    <div id="14_12" class="item_tab local5 posicao63"></div>
+                    <div id="14_13" class="item_tab local5 posicao64"></div>
+                    <div id="14_14" class="item_tab local5 posicao65"></div>
+                    <div id="14_15" class="item_tab local5 posicao66"></div>
+                    <div id="14_16" class="item_tab local5 posicao67"></div>
+                    <div id="14_17" class="item_tab"></div>
+                    <div id="14_18" class="item_tab"></div>
+                    <div id="14_19" class="item_tab"></div>
+                    <div id="14_20" class="item_tab local8 posicao11"></div>
+                    <div id="14_21" class="item_tab local8 posicao12"></div>
+                    <div id="14_22" class="item_tab local8 posicao13"></div>
+                    <div id="14_23" class="item_tab local8 posicao14"></div>
+                    <div id="14_24" class="item_tab local8 posicao15"></div>
+                    <div id="14_25" class="item_tab local8 posicao16"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local7 posicao31"></div>
-                    <div class="item_tab local7 posicao32"></div>
-                    <div class="item_tab local7 posicao33"></div>
-                    <div class="item_tab local7 posicao34"></div>
-                    <div class="item_tab local7 posicao35"></div>
-                    <div class="item_tab local7 posicao36"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local5 posicao71"></div>
-                    <div class="item_tab local5 posicao72"></div>
-                    <div class="item_tab local5 posicao73"></div>
-                    <div class="item_tab local5 posicao74"></div>
-                    <div class="item_tab local5 posicao75"></div>
-                    <div class="item_tab local5 posicao76"></div>
-                    <div class="item_tab local5 posicao77"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local8 posicao21"></div>
-                    <div class="item_tab local8 posicao22"></div>
-                    <div class="item_tab local8 posicao23"></div>
-                    <div class="item_tab local8 posicao24"></div>
-                    <div class="item_tab local8 posicao25"></div>
-                    <div class="item_tab local8 posicao26"></div>
+                    <div id="15_1" class="item_tab local7 posicao31"></div>
+                    <div id="15_2" class="item_tab local7 posicao32"></div>
+                    <div id="15_3" class="item_tab local7 posicao33"></div>
+                    <div id="15_4" class="item_tab local7 posicao34"></div>
+                    <div id="15_5" class="item_tab local7 posicao35"></div>
+                    <div id="15_6" class="item_tab local7 posicao36"></div>
+                    <div id="15_7" class="item_tab"></div>
+                    <div id="15_8" class="item_tab"></div>
+                    <div id="15_9" class="item_tab"></div>
+                    <div id="15_10" class="item_tab local5 posicao71"></div>
+                    <div id="15_11" class="item_tab local5 posicao72"></div>
+                    <div id="15_12" class="item_tab local5 posicao73"></div>
+                    <div id="15_13" class="item_tab local5 posicao74"></div>
+                    <div id="15_14" class="item_tab local5 posicao75"></div>
+                    <div id="15_15" class="item_tab local5 posicao76"></div>
+                    <div id="15_16" class="item_tab local5 posicao77"></div>
+                    <div id="15_17" class="item_tab"></div>
+                    <div id="15_18" class="item_tab"></div>
+                    <div id="15_19" class="item_tab"></div>
+                    <div id="15_20" class="item_tab local8 posicao21"></div>
+                    <div id="15_21" class="item_tab local8 posicao22"></div>
+                    <div id="15_22" class="item_tab local8 posicao23"></div>
+                    <div id="15_23" class="item_tab local8 posicao24"></div>
+                    <div id="15_24" class="item_tab local8 posicao25"></div>
+                    <div id="15_25" class="item_tab local8 posicao26"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local7 posicao41"></div>
-                    <div class="item_tab local7 posicao42"></div>
-                    <div class="item_tab local7 posicao43"></div>
-                    <div class="item_tab local7 posicao44"></div>
-                    <div class="item_tab local7 posicao45"></div>
-                    <div class="item_tab local7 posicao46"></div>
-                    <div class="item_tab porta pl"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local5 posicao81"></div>
-                    <div class="item_tab local5 posicao82"></div>
-                    <div class="item_tab local5 posicao83"></div>
-                    <div class="item_tab local5 posicao84"></div>
-                    <div class="item_tab local5 posicao85"></div>
-                    <div class="item_tab local5 posicao86"></div>
-                    <div class="item_tab local5 posicao87"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab porta pr"></div>
-                    <div class="item_tab local8 posicao31"></div>
-                    <div class="item_tab local8 posicao32"></div>
-                    <div class="item_tab local8 posicao33"></div>
-                    <div class="item_tab local8 posicao34"></div>
-                    <div class="item_tab local8 posicao35"></div>
-                    <div class="item_tab local8 posicao36"></div>
+                    <div id="16_1" class="item_tab local7 posicao41"></div>
+                    <div id="16_2" class="item_tab local7 posicao42"></div>
+                    <div id="16_3" class="item_tab local7 posicao43"></div>
+                    <div id="16_4" class="item_tab local7 posicao44"></div>
+                    <div id="16_5" class="item_tab local7 posicao45"></div>
+                    <div id="16_6" class="item_tab local7 posicao46"></div>
+                    <div id="16_7" class="item_tab porta pl" comodo="local7"></div>
+                    <div id="16_8" class="item_tab"></div>
+                    <div id="16_9" class="item_tab"></div>
+                    <div id="16_10" class="item_tab local5 posicao81"></div>
+                    <div id="16_11" class="item_tab local5 posicao82"></div>
+                    <div id="16_12" class="item_tab local5 posicao83"></div>
+                    <div id="16_13" class="item_tab local5 posicao84"></div>
+                    <div id="16_14" class="item_tab local5 posicao85"></div>
+                    <div id="16_15" class="item_tab local5 posicao86"></div>
+                    <div id="16_16" class="item_tab local5 posicao87"></div>
+                    <div id="16_17" class="item_tab"></div>
+                    <div id="16_18" class="item_tab"></div>
+                    <div id="16_19" class="item_tab porta pr" comodo="local8"></div>
+                    <div id="16_20" class="item_tab local8 posicao31"></div>
+                    <div id="16_21" class="item_tab local8 posicao32"></div>
+                    <div id="16_22" class="item_tab local8 posicao33"></div>
+                    <div id="16_23" class="item_tab local8 posicao34"></div>
+                    <div id="16_24" class="item_tab local8 posicao35"></div>
+                    <div id="16_25" class="item_tab local8 posicao36"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local7 posicao51"></div>
-                    <div class="item_tab local7 posicao52"></div>
-                    <div class="item_tab local7 posicao53"></div>
-                    <div class="item_tab local7 posicao54"></div>
-                    <div class="item_tab local7 posicao55"></div>
-                    <div class="item_tab local7 posicao56"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local5 posicao91"></div>
-                    <div class="item_tab local5 posicao92"></div>
-                    <div class="item_tab local5 posicao93"></div>
-                    <div class="item_tab local5 posicao94"></div>
-                    <div class="item_tab local5 posicao95"></div>
-                    <div class="item_tab local5 posicao96"></div>
-                    <div class="item_tab local5 posicao97"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local8 posicao41"></div>
-                    <div class="item_tab local8 posicao42"></div>
-                    <div class="item_tab local8 posicao43"></div>
-                    <div class="item_tab local8 posicao44"></div>
-                    <div class="item_tab local8 posicao45"></div>
-                    <div class="item_tab local8 posicao46"></div>
+                    <div id="17_1" class="item_tab local7 posicao51"></div>
+                    <div id="17_2" class="item_tab local7 posicao52"></div>
+                    <div id="17_3" class="item_tab local7 posicao53"></div>
+                    <div id="17_4" class="item_tab local7 posicao54"></div>
+                    <div id="17_5" class="item_tab local7 posicao55"></div>
+                    <div id="17_6" class="item_tab local7 posicao56"></div>
+                    <div id="17_7" class="item_tab"></div>
+                    <div id="17_8" class="item_tab"></div>
+                    <div id="17_9" class="item_tab"></div>
+                    <div id="17_10" class="item_tab local5 posicao91"></div>
+                    <div id="17_11" class="item_tab local5 posicao92"></div>
+                    <div id="17_12" class="item_tab local5 posicao93"></div>
+                    <div id="17_13" class="item_tab local5 posicao94"></div>
+                    <div id="17_14" class="item_tab local5 posicao95"></div>
+                    <div id="17_15" class="item_tab local5 posicao96"></div>
+                    <div id="17_16" class="item_tab local5 posicao97"></div>
+                    <div id="17_17" class="item_tab"></div>
+                    <div id="17_18" class="item_tab"></div>
+                    <div id="17_19" class="item_tab"></div>
+                    <div id="17_20" class="item_tab local8 posicao41"></div>
+                    <div id="17_21" class="item_tab local8 posicao42"></div>
+                    <div id="17_22" class="item_tab local8 posicao43"></div>
+                    <div id="17_23" class="item_tab local8 posicao44"></div>
+                    <div id="17_24" class="item_tab local8 posicao45"></div>
+                    <div id="17_25" class="item_tab local8 posicao46"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local7 posicao61"></div>
-                    <div class="item_tab local7 posicao62"></div>
-                    <div class="item_tab local7 posicao63"></div>
-                    <div class="item_tab local7 posicao64"></div>
-                    <div class="item_tab local7 posicao65"></div>
-                    <div class="item_tab local7 posicao66"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local8 posicao51"></div>
-                    <div class="item_tab local8 posicao52"></div>
-                    <div class="item_tab local8 posicao53"></div>
-                    <div class="item_tab local8 posicao54"></div>
-                    <div class="item_tab local8 posicao55"></div>
-                    <div class="item_tab local8 posicao56"></div>
+                    <div id="18_1" class="item_tab local7 posicao61"></div>
+                    <div id="18_2" class="item_tab local7 posicao62"></div>
+                    <div id="18_3" class="item_tab local7 posicao63"></div>
+                    <div id="18_4" class="item_tab local7 posicao64"></div>
+                    <div id="18_5" class="item_tab local7 posicao65"></div>
+                    <div id="18_6" class="item_tab local7 posicao66"></div>
+                    <div id="18_7" class="item_tab"></div>
+                    <div id="18_8" class="item_tab"></div>
+                    <div id="18_9" class="item_tab"></div>
+                    <div id="18_10" class="item_tab"></div>
+                    <div id="18_11" class="item_tab"></div>
+                    <div id="18_12" class="item_tab"></div>
+                    <div id="18_13" class="item_tab"></div>
+                    <div id="18_14" class="item_tab"></div>
+                    <div id="18_15" class="item_tab"></div>
+                    <div id="18_16" class="item_tab"></div>
+                    <div id="18_17" class="item_tab"></div>
+                    <div id="18_18" class="item_tab"></div>
+                    <div id="18_19" class="item_tab"></div>
+                    <div id="18_20" class="item_tab local8 posicao51"></div>
+                    <div id="18_21" class="item_tab local8 posicao52"></div>
+                    <div id="18_22" class="item_tab local8 posicao53"></div>
+                    <div id="18_23" class="item_tab local8 posicao54"></div>
+                    <div id="18_24" class="item_tab local8 posicao55"></div>
+                    <div id="18_25" class="item_tab local8 posicao56"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab porta pt"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
+                    <div id="19_1" class="item_tab"></div>
+                    <div id="19_2" class="item_tab"></div>
+                    <div id="19_3" class="item_tab porta pt" comodo="local7"></div>
+                    <div id="19_4" class="item_tab"></div>
+                    <div id="19_5" class="item_tab"></div>
+                    <div id="19_6" class="item_tab"></div>
+                    <div id="19_7" class="item_tab"></div>
+                    <div id="19_8" class="item_tab"></div>
+                    <div id="19_9" class="item_tab"></div>
+                    <div id="19_10" class="item_tab"></div>
+                    <div id="19_11" class="item_tab"></div>
+                    <div id="19_12" class="item_tab"></div>
+                    <div id="19_13" class="item_tab"></div>
+                    <div id="19_14" class="item_tab"></div>
+                    <div id="19_15" class="item_tab"></div>
+                    <div id="19_16" class="item_tab"></div>
+                    <div id="19_17" class="item_tab"></div>
+                    <div id="19_18" class="item_tab"></div>
+                    <div id="19_19" class="item_tab"></div>
+                    <div id="19_20" class="item_tab"></div>
+                    <div id="19_21" class="item_tab"></div>
+                    <div id="19_22" class="item_tab"></div>
+                    <div id="19_23" class="item_tab"></div>
+                    <div id="19_24" class="item_tab"></div>
+                    <div id="19_25" class="item_tab"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab porta pb"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local10 posicao11"></div>
-                    <div class="item_tab local10 posicao12"></div>
-                    <div class="item_tab local10 posicao13"></div>
-                    <div class="item_tab local10 posicao14"></div>
-                    <div class="item_tab local10 posicao15"></div>
-                    <div class="item_tab local10 posicao16"></div>
-                    <div class="item_tab local10 posicao17"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab porta pb"></div>
-                    <div class="item_tab"></div>
+                    <div id="20_1" class="item_tab"></div>
+                    <div id="20_2" class="item_tab"></div>
+                    <div id="20_3" class="item_tab"></div>
+                    <div id="20_4" class="item_tab porta pb" comodo="local9"></div>
+                    <div id="20_5" class="item_tab"></div>
+                    <div id="20_6" class="item_tab"></div>
+                    <div id="20_7" class="item_tab"></div>
+                    <div id="20_8" class="item_tab"></div>
+                    <div id="20_9" class="item_tab"></div>
+                    <div id="20_10" class="item_tab local10 posicao11"></div>
+                    <div id="20_11" class="item_tab local10 posicao12"></div>
+                    <div id="20_12" class="item_tab local10 posicao13"></div>
+                    <div id="20_13" class="item_tab local10 posicao14"></div>
+                    <div id="20_14" class="item_tab local10 posicao15"></div>
+                    <div id="20_15" class="item_tab local10 posicao16"></div>
+                    <div id="20_16" class="item_tab local10 posicao17"></div>
+                    <div id="20_17" class="item_tab"></div>
+                    <div id="20_18" class="item_tab"></div>
+                    <div id="20_19" class="item_tab"></div>
+                    <div id="20_20" class="item_tab"></div>
+                    <div id="20_21" class="item_tab"></div>
+                    <div id="20_22" class="item_tab"></div>
+                    <div id="20_23" class="item_tab"></div>
+                    <div id="20_24" class="item_tab porta pb" comodo="local11"></div>
+                    <div id="20_25" class="item_tab"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local9 posicao11"></div>
-                    <div class="item_tab local9 posicao12"></div>
-                    <div class="item_tab local9 posicao13"></div>
-                    <div class="item_tab local9 posicao14"></div>
-                    <div class="item_tab local9 posicao15"></div>
-                    <div class="item_tab local9 posicao16"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local10 posicao21"></div>
-                    <div class="item_tab local10 posicao22"></div>
-                    <div class="item_tab local10 posicao23"></div>
-                    <div class="item_tab local10 posicao24"></div>
-                    <div class="item_tab local10 posicao25"></div>
-                    <div class="item_tab local10 posicao26"></div>
-                    <div class="item_tab local10 posicao27"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local11 posicao11"></div>
-                    <div class="item_tab local11 posicao12"></div>
-                    <div class="item_tab local11 posicao13"></div>
-                    <div class="item_tab local11 posicao14"></div>
-                    <div class="item_tab local11 posicao15"></div>
-                    <div class="item_tab local11 posicao16"></div>
+                    <div id="21_1" class="item_tab local9 posicao11"></div>
+                    <div id="21_2" class="item_tab local9 posicao12"></div>
+                    <div id="21_3" class="item_tab local9 posicao13"></div>
+                    <div id="21_4" class="item_tab local9 posicao14"></div>
+                    <div id="21_5" class="item_tab local9 posicao15"></div>
+                    <div id="21_6" class="item_tab local9 posicao16"></div>
+                    <div id="21_7" class="item_tab"></div>
+                    <div id="21_8" class="item_tab"></div>
+                    <div id="21_9" class="item_tab"></div>
+                    <div id="21_10" class="item_tab local10 posicao21"></div>
+                    <div id="21_11" class="item_tab local10 posicao22"></div>
+                    <div id="21_12" class="item_tab local10 posicao23"></div>
+                    <div id="21_13" class="item_tab local10 posicao24"></div>
+                    <div id="21_14" class="item_tab local10 posicao25"></div>
+                    <div id="21_15" class="item_tab local10 posicao26"></div>
+                    <div id="21_16" class="item_tab local10 posicao27"></div>
+                    <div id="21_17" class="item_tab"></div>
+                    <div id="21_18" class="item_tab"></div>
+                    <div id="21_19" class="item_tab"></div>
+                    <div id="21_20" class="item_tab local11 posicao11"></div>
+                    <div id="21_21" class="item_tab local11 posicao12"></div>
+                    <div id="21_22" class="item_tab local11 posicao13"></div>
+                    <div id="21_23" class="item_tab local11 posicao14"></div>
+                    <div id="21_24" class="item_tab local11 posicao15"></div>
+                    <div id="21_25" class="item_tab local11 posicao16"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local9 posicao21"></div>
-                    <div class="item_tab local9 posicao22"></div>
-                    <div class="item_tab local9 posicao23"></div>
-                    <div class="item_tab local9 posicao24"></div>
-                    <div class="item_tab local9 posicao25"></div>
-                    <div class="item_tab local9 posicao26"></div>
-                    <div class="item_tab porta pl"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local10 posicao31"></div>
-                    <div class="item_tab local10 posicao32"></div>
-                    <div class="item_tab local10 posicao33"></div>
-                    <div class="item_tab local10 posicao34"></div>
-                    <div class="item_tab local10 posicao35"></div>
-                    <div class="item_tab local10 posicao36"></div>
-                    <div class="item_tab local10 posicao37"></div>
-                    <div class="item_tab porta pl"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local11 posicao21"></div>
-                    <div class="item_tab local11 posicao22"></div>
-                    <div class="item_tab local11 posicao23"></div>
-                    <div class="item_tab local11 posicao24"></div>
-                    <div class="item_tab local11 posicao25"></div>
-                    <div class="item_tab local11 posicao26"></div>
+                    <div id="22_1" class="item_tab local9 posicao21"></div>
+                    <div id="22_2" class="item_tab local9 posicao22"></div>
+                    <div id="22_3" class="item_tab local9 posicao23"></div>
+                    <div id="22_4" class="item_tab local9 posicao24"></div>
+                    <div id="22_5" class="item_tab local9 posicao25"></div>
+                    <div id="22_6" class="item_tab local9 posicao26"></div>
+                    <div id="22_7" class="item_tab porta pl" comodo="local9"></div>
+                    <div id="22_8" class="item_tab"></div>
+                    <div id="22_9" class="item_tab"></div>
+                    <div id="22_10" class="item_tab local10 posicao31"></div>
+                    <div id="22_11" class="item_tab local10 posicao32"></div>
+                    <div id="22_12" class="item_tab local10 posicao33"></div>
+                    <div id="22_13" class="item_tab local10 posicao34"></div>
+                    <div id="22_14" class="item_tab local10 posicao35"></div>
+                    <div id="22_15" class="item_tab local10 posicao36"></div>
+                    <div id="22_16" class="item_tab local10 posicao37"></div>
+                    <div id="22_17" class="item_tab porta pl" comodo="local10"></div>
+                    <div id="22_18" class="item_tab"></div>
+                    <div id="22_19" class="item_tab"></div>
+                    <div id="22_20" class="item_tab local11 posicao21"></div>
+                    <div id="22_21" class="item_tab local11 posicao22"></div>
+                    <div id="22_22" class="item_tab local11 posicao23"></div>
+                    <div id="22_23" class="item_tab local11 posicao24"></div>
+                    <div id="22_24" class="item_tab local11 posicao25"></div>
+                    <div id="22_25" class="item_tab local11 posicao26"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local9 posicao31"></div>
-                    <div class="item_tab local9 posicao32"></div>
-                    <div class="item_tab local9 posicao33"></div>
-                    <div class="item_tab local9 posicao34"></div>
-                    <div class="item_tab local9 posicao35"></div>
-                    <div class="item_tab local9 posicao36"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local10 posicao41"></div>
-                    <div class="item_tab local10 posicao42"></div>
-                    <div class="item_tab local10 posicao43"></div>
-                    <div class="item_tab local10 posicao44"></div>
-                    <div class="item_tab local10 posicao45"></div>
-                    <div class="item_tab local10 posicao46"></div>
-                    <div class="item_tab local10 posicao47"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab porta pb"></div>
-                    <div class="item_tab local11 posicao31"></div>
-                    <div class="item_tab local11 posicao32"></div>
-                    <div class="item_tab local11 posicao33"></div>
-                    <div class="item_tab local11 posicao34"></div>
-                    <div class="item_tab local11 posicao35"></div>
-                    <div class="item_tab local11 posicao36"></div>
+                    <div id="23_1" class="item_tab local9 posicao31"></div>
+                    <div id="23_2" class="item_tab local9 posicao32"></div>
+                    <div id="23_3" class="item_tab local9 posicao33"></div>
+                    <div id="23_4" class="item_tab local9 posicao34"></div>
+                    <div id="23_5" class="item_tab local9 posicao35"></div>
+                    <div id="23_6" class="item_tab local9 posicao36"></div>
+                    <div id="23_7" class="item_tab"></div>
+                    <div id="23_8" class="item_tab"></div>
+                    <div id="23_9" class="item_tab"></div>
+                    <div id="23_10" class="item_tab local10 posicao41"></div>
+                    <div id="23_11" class="item_tab local10 posicao42"></div>
+                    <div id="23_12" class="item_tab local10 posicao43"></div>
+                    <div id="23_13" class="item_tab local10 posicao44"></div>
+                    <div id="23_14" class="item_tab local10 posicao45"></div>
+                    <div id="23_15" class="item_tab local10 posicao46"></div>
+                    <div id="23_16" class="item_tab local10 posicao47"></div>
+                    <div id="23_17" class="item_tab"></div>
+                    <div id="23_18" class="item_tab"></div>
+                    <div id="23_19" class="item_tab porta pb" comodo="local11"></div>
+                    <div id="23_20" class="item_tab local11 posicao31"></div>
+                    <div id="23_21" class="item_tab local11 posicao32"></div>
+                    <div id="23_22" class="item_tab local11 posicao33"></div>
+                    <div id="23_23" class="item_tab local11 posicao34"></div>
+                    <div id="23_24" class="item_tab local11 posicao35"></div>
+                    <div id="23_25" class="item_tab local11 posicao36"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local9 posicao41"></div>
-                    <div class="item_tab local9 posicao42"></div>
-                    <div class="item_tab local9 posicao43"></div>
-                    <div class="item_tab local9 posicao44"></div>
-                    <div class="item_tab local9 posicao45"></div>
-                    <div class="item_tab local9 posicao46"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab porta pb"></div>
-                    <div class="item_tab local10 posicao51"></div>
-                    <div class="item_tab local10 posicao52"></div>
-                    <div class="item_tab local10 posicao53"></div>
-                    <div class="item_tab local10 posicao54"></div>
-                    <div class="item_tab local10 posicao55"></div>
-                    <div class="item_tab local10 posicao56"></div>
-                    <div class="item_tab local10 posicao57"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local11 posicao41"></div>
-                    <div class="item_tab local11 posicao42"></div>
-                    <div class="item_tab local11 posicao43"></div>
-                    <div class="item_tab local11 posicao44"></div>
-                    <div class="item_tab local11 posicao45"></div>
-                    <div class="item_tab local11 posicao46"></div>
+                    <div id="24_1" class="item_tab local9 posicao41"></div>
+                    <div id="24_2" class="item_tab local9 posicao42"></div>
+                    <div id="24_3" class="item_tab local9 posicao43"></div>
+                    <div id="24_4" class="item_tab local9 posicao44"></div>
+                    <div id="24_5" class="item_tab local9 posicao45"></div>
+                    <div id="24_6" class="item_tab local9 posicao46"></div>
+                    <div id="24_7" class="item_tab"></div>
+                    <div id="24_8" class="item_tab"></div>
+                    <div id="24_9" class="item_tab porta pb" comodo="local10"></div>
+                    <div id="24_10" class="item_tab local10 posicao51"></div>
+                    <div id="24_11" class="item_tab local10 posicao52"></div>
+                    <div id="24_12" class="item_tab local10 posicao53"></div>
+                    <div id="24_13" class="item_tab local10 posicao54"></div>
+                    <div id="24_14" class="item_tab local10 posicao55"></div>
+                    <div id="24_15" class="item_tab local10 posicao56"></div>
+                    <div id="24_16" class="item_tab local10 posicao57"></div>
+                    <div id="24_17" class="item_tab"></div>
+                    <div id="24_18" class="item_tab"></div>
+                    <div id="24_19" class="item_tab"></div>
+                    <div id="24_20" class="item_tab local11 posicao41"></div>
+                    <div id="24_21" class="item_tab local11 posicao42"></div>
+                    <div id="24_22" class="item_tab local11 posicao43"></div>
+                    <div id="24_23" class="item_tab local11 posicao44"></div>
+                    <div id="24_24" class="item_tab local11 posicao45"></div>
+                    <div id="24_25" class="item_tab local11 posicao46"></div>
                 </div>
                 <div class="linha">
-                    <div class="item_tab local9 posicao51"></div>
-                    <div class="item_tab local9 posicao52"></div>
-                    <div class="item_tab local9 posicao53"></div>
-                    <div class="item_tab local9 posicao54"></div>
-                    <div class="item_tab local9 posicao55"></div>
-                    <div class="item_tab local9 posicao56"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local10 posicao61"></div>
-                    <div class="item_tab local10 posicao62"></div>
-                    <div class="item_tab local10 posicao63"></div>
-                    <div class="item_tab local10 posicao64"></div>
-                    <div class="item_tab local10 posicao65"></div>
-                    <div class="item_tab local10 posicao66"></div>
-                    <div class="item_tab local10 posicao67"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab"></div>
-                    <div class="item_tab local11 posicao51"></div>
-                    <div class="item_tab local11 posicao52"></div>
-                    <div class="item_tab local11 posicao53"></div>
-                    <div class="item_tab local11 posicao54"></div>
-                    <div class="item_tab local11 posicao55"></div>
-                    <div class="item_tab local11 posicao56"></div>
+                    <div id="25_1" class="item_tab local9 posicao51"></div>
+                    <div id="25_2" class="item_tab local9 posicao52"></div>
+                    <div id="25_3" class="item_tab local9 posicao53"></div>
+                    <div id="25_4" class="item_tab local9 posicao54"></div>
+                    <div id="25_5" class="item_tab local9 posicao55"></div>
+                    <div id="25_6" class="item_tab local9 posicao56"></div>
+                    <div id="25_7" class="item_tab"></div>
+                    <div id="25_8" class="item_tab"></div>
+                    <div id="25_9" class="item_tab"></div>
+                    <div id="25_10" class="item_tab local10 posicao61"></div>
+                    <div id="25_11" class="item_tab local10 posicao62"></div>
+                    <div id="25_12" class="item_tab local10 posicao63"></div>
+                    <div id="25_13" class="item_tab local10 posicao64"></div>
+                    <div id="25_14" class="item_tab local10 posicao65"></div>
+                    <div id="25_15" class="item_tab local10 posicao66"></div>
+                    <div id="25_16" class="item_tab local10 posicao67"></div>
+                    <div id="25_17" class="item_tab"></div>
+                    <div id="25_18" class="item_tab"></div>
+                    <div id="25_19" class="item_tab"></div>
+                    <div id="25_20" class="item_tab local11 posicao51"></div>
+                    <div id="25_21" class="item_tab local11 posicao52"></div>
+                    <div id="25_22" class="item_tab local11 posicao53"></div>
+                    <div id="25_23" class="item_tab local11 posicao54"></div>
+                    <div id="25_24" class="item_tab local11 posicao55"></div>
+                    <div id="25_25" class="item_tab local11 posicao56"></div>
                 </div>
             </div>
         </div>
@@ -850,13 +884,11 @@
                         </tr>
                         <tr ng-repeat="personagem in partida.barraAnotacao.suspeitos | orderBy:'carta.nome'">
                             <td>
-                                <img ng-src="{{personagem.carta.src}}" style="width:20px" />
-                                {{personagem.carta.nome}}
+                                <img ng-src="{{personagem.carta.src}}" style="width:20px" /> {{personagem.carta.nome}}
                             </td>
                             <td>
-                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" 
-                                ng-disabled="personagem.minhaCarta"
-                                ng-model="personagem.selecionado" />
+                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-disabled="personagem.minhaCarta" ng-model="personagem.selecionado"
+                                />
                             </td>
                         </tr>
                     </table>
@@ -866,13 +898,11 @@
                         </tr>
                         <tr ng-repeat="personagem in partida.barraAnotacao.armas | orderBy:'carta.nome'">
                             <td>
-                                <img ng-src="{{personagem.carta.src}}" style="width:20px" />
-                                {{personagem.carta.nome}}
+                                <img ng-src="{{personagem.carta.src}}" style="width:20px" /> {{personagem.carta.nome}}
                             </td>
                             <td>
-                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" 
-                                ng-disabled="personagem.minhaCarta"
-                                ng-model="personagem.selecionado" />
+                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-disabled="personagem.minhaCarta" ng-model="personagem.selecionado"
+                                />
                             </td>
                         </tr>
                     </table>
@@ -882,13 +912,11 @@
                         </tr>
                         <tr ng-repeat="personagem in partida.barraAnotacao.locais | orderBy:'carta.nome'">
                             <td>
-                                <img ng-src="{{personagem.carta.src}}" style="width:20px" />
-                                {{personagem.carta.nome}}
+                                <img ng-src="{{personagem.carta.src}}" style="width:20px" /> {{personagem.carta.nome}}
                             </td>
                             <td>
-                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" 
-                                ng-disabled="personagem.minhaCarta"
-                                ng-model="personagem.selecionado" />
+                                <input type="checkbox" class="js-switch" ui-switch="{{switcheryOptions}}" ng-disabled="personagem.minhaCarta" ng-model="personagem.selecionado"
+                                />
                             </td>
                         </tr>
                     </table>
@@ -898,10 +926,8 @@
     </div>
 
     <div class="todos_personagens">
-        <img class="perfil_grid"
-             ng-class="{'active': $index == 4 }"
-             ng-repeat="jogador in partida.jogadores"
-             ng-src="{{jogador.src}}" />
+        <img class="perfil_grid" ng-class="{'active': $index == indiceJogadorAtual }" ng-repeat="jogador in partida.jogadores" ng-src="{{jogador.src}}"
+        />
     </div>
 
     <div class="palpite" ng-click="ProximaJogada()">
@@ -911,8 +937,8 @@
     </div>
 
     <div class="dados" ng-show="mostrarTimer">
-        <i class="fa fa-clock-o" aria-hidden="true"></i>
-       {{tempo}}
+        <span ng-if="numeroJogadas != 0">{{numeroJogadas}}</span>
+        <i class="fa fa-clock-o" aria-hidden="true"></i> {{tempo}}
     </div>
 
     <div class="navbar navbar-inverse nav_blue navbar-fixed-bottom">
@@ -948,7 +974,6 @@
 
     <script type="text/javascript" src="App/Controllers/PartidaController.js"></script>
     <script type="text/javascript">
-
         function Tamanhos() {
             var tamanhoNavBar = $('.navbar').height();
             $('.conteudo_cartas').css('max-height', window.innerHeight - $('.avatar').height() - 20 - tamanhoNavBar);
@@ -965,4 +990,5 @@
         })
     </script>
 </body>
+
 </html>

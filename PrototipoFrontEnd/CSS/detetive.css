@@ -257,6 +257,7 @@ body {
 
 .casaDispo{
     background: rgba(0, 0, 255, 0.45);
+    cursor: pointer !important;
 }
 
 .peao{
@@ -316,4 +317,8 @@ body {
 
 .numeroCasas{
     font-size: 100px;
+}
+
+.click{
+    cursor: pointer;
 }
