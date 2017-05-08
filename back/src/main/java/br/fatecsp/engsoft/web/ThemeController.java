@@ -1,37 +1,66 @@
 package br.fatecsp.engsoft.web;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
 import br.fatecsp.engsoft.domain.ThemeRequest;
 import br.fatecsp.engsoft.entities.Theme;
+import br.fatecsp.engsoft.file.PhotosFile;
 import br.fatecsp.engsoft.service.ThemeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
+
 
 @Controller
 @RequestMapping("/themes")
 public class ThemeController {
 
+	@Value("${detetive.image.map}")
+	private String filePath;
+
+
+	@Value("${detetive.image.location}")
+	private String fileLocation;
+
+	@Autowired
+	private PhotosFile photosFile;
+
 	@Autowired
 	private ThemeService themeService;
 
-	@RequestMapping(method = RequestMethod.POST)
+	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ModelAndView register(ThemeRequest request) {
-		themeService.register(request);
+	public ModelAndView register(@RequestParam("photo")MultipartFile photoFile, @RequestParam("name") String name, @RequestParam("price") BigDecimal price) {
+
+		String boardSrc = photosFile.createFile(photoFile);
+		ThemeRequest themeDTO = new ThemeRequest(name, price, boardSrc);
+		themeService.register(themeDTO);
 		return listAll();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
+	@PostMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ModelAndView update(@PathVariable("id") Long id,ThemeRequest request) {
-		themeService.update(id,request);
+	public ModelAndView update(@PathVariable("id") Long id,@RequestParam("photo")MultipartFile photoFile, @RequestParam("name") String name, @RequestParam("price") BigDecimal price) {
+		String boardSrc = "";
+		try {
+			if (photoFile.getBytes().length != 0) {
+				boardSrc = photosFile.createFile(photoFile);
+			} else {
+				boardSrc = themeService.find(id).getImageSrc();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		ThemeRequest themeDTO = new ThemeRequest(name, price, boardSrc );
+		themeService.update(id,themeDTO);
 		return listAll();
 	}
 

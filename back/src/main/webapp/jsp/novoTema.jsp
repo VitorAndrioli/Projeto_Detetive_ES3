@@ -35,13 +35,13 @@
     <div class="panel panel-default">
         <div class="panel-heading">Novo Tema</div>
         <div class="panel-body">
-            <form method="POST" action="${contextPath}/themes">
+            <form method="POST" action="${contextPath}/themes" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="email">Nome:</label> <input type="text"
                                                             class="form-control" name="name">
                 </div>
                 <div class="form-group">
-                    <label for="pwd">Preço:</label> <input type="number" min="1"
+                    <label for="pwd">Pre&ccedilo:</label> <input type="number" min="1"
                                                            step="any" class="form-control" name="price"/>
                 </div>
                 <div class="form-group">
@@ -60,7 +60,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="<c:url value="/javascript/novoTema.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/javascript/tema.js"/>"></script>
 <script type="text/javascript"
         src="${contextPath}/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>

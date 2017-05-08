@@ -4,7 +4,6 @@ import br.fatecsp.engsoft.domain.CardRequest;
 import br.fatecsp.engsoft.file.PhotosFile;
 import br.fatecsp.engsoft.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -25,11 +24,8 @@ public class DeckController {
 	@Autowired
 	private CardService cardService;
 
-	@Value("${detetive.image.map}")
-	private String filePath;
-
-	@Value("${detetive.image.location}")
-	private String fileLocation;
+	@Autowired
+	private PhotosFile photosFile;
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -46,8 +42,8 @@ public class DeckController {
 			@RequestParam("type") String type
 
 	) {
-		String cardSrc = PhotosFile.createFile(photoFile, filePath);
-		CardRequest cardRequest = new CardRequest(name, type, fileLocation + cardSrc);
+		String cardSrc = photosFile.createFile(photoFile);
+		CardRequest cardRequest = new CardRequest(name, type,  cardSrc);
 		Long themeId = (Long) session.getAttribute("theme");
 		cardService.register(themeId, cardRequest);
 		return listAll(themeId);
@@ -68,7 +64,7 @@ public class DeckController {
 		String cardSrc = "";
 		try {
 			if (photoFile.getBytes().length != 0) {
-				cardSrc = fileLocation + PhotosFile.createFile(photoFile, filePath);
+				cardSrc = photosFile.createFile(photoFile);
 			} else {
 				cardSrc = cardService.getById(id).getCardSrc();
 			}

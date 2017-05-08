@@ -1,5 +1,7 @@
 package br.fatecsp.engsoft.file;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -10,9 +12,17 @@ import java.nio.file.Paths;
 /**
  * Created by Rafael on 20/04/2017.
  */
+@Component
 public class PhotosFile {
 
-    public static String createFile(MultipartFile photoFile, String filePath) {
+    @Value("${detetive.image.map}")
+    private String filePath;
+
+    @Value("${detetive.image.location}")
+    private String fileLocation;
+
+
+    public String createFile(MultipartFile photoFile) {
         final int fileName = photoFile.hashCode();
         final String contentType = photoFile.getContentType();
         final String type = contentType.substring(1 + contentType.indexOf("/"));
@@ -24,6 +34,6 @@ public class PhotosFile {
         } catch (IOException e) {
             System.err.println("Não foi possível escrever os arquivo");
         }
-        return fullName;
+        return fileLocation+fullName;
     }
 }

@@ -1,13 +1,12 @@
 package br.fatecsp.engsoft.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import br.fatecsp.engsoft.domain.ThemeRequest;
 import br.fatecsp.engsoft.entities.Theme;
 import br.fatecsp.engsoft.repositories.ThemeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ThemeService {
@@ -33,6 +32,7 @@ public class ThemeService {
 		Theme theme = themeRepository.findOne(id);
 		theme.setName(request.getName());
 		theme.setPrice(request.getPrice());
+		theme.setImageSrc(request.getImageSrc());
 		themeRepository.save(theme);
 		return theme;
 	}
