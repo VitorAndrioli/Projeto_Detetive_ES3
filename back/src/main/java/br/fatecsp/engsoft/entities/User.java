@@ -1,24 +1,14 @@
 package br.fatecsp.engsoft.entities;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-@Table(name = "user")
+@Table(name = "user_profile")
 @Data
 @EqualsAndHashCode(exclude="roles")
 public class User {

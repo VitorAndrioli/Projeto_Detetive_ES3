@@ -41,7 +41,7 @@
             <form method="POST" action="${contextPath}/deck/card" enctype="multipart/form-data" runat="server">
                 <div class="form-group">
                     <label for="email">Nome:</label> <input type="text"
-                                                            class="form-control" name="name" id="name">
+                                                            class="form-control" name="name" id="name" maxlength="20">
                 </div>
                 <div class="form-group">
                     <label for="pwd">Tipo:</label>

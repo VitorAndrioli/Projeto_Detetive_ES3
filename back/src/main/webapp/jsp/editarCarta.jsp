@@ -39,6 +39,7 @@
                   runat="server">
                 <div class="form-group">
                     <label for="email">Nome:</label> <input type="text"
+                                                            maxlength="20"
                                                             class="form-control" name="name" id="name"
                                                             value="${card.name}">
                 </div>
@@ -62,7 +63,7 @@
                                 <p id="cardType"></p>
                             </div>
                             <div class="photo-container flex">
-                                <img id="card" width="100%" height="100%" src="<c:url value="/cards/${card.cardSrc}"/>"
+                                <img id="card" width="100%" height="100%" src="<c:url value="${card.cardSrc}"/>"
                                      alt="Foto da imagem"/>
                             </div>
                         </div>

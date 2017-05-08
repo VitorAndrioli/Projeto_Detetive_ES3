@@ -12,17 +12,17 @@ import java.nio.file.Paths;
  */
 public class PhotosFile {
 
-    public static String createFile(MultipartFile photoFile) {
+    public static String createFile(MultipartFile photoFile, String filePath) {
         final int fileName = photoFile.hashCode();
         final String contentType = photoFile.getContentType();
         final String type = contentType.substring(1 + contentType.indexOf("/"));
         String fullName = fileName + "." + type;
         try {
-            Path file = Paths.get("src\\main\\webapp\\cards\\" + fullName);
+            Path file = Paths.get(filePath+ fullName);
             Files.write(file, photoFile.getBytes());
 
         } catch (IOException e) {
-            System.err.println("Não foi possível escrever arquivo");
+            System.err.println("Não foi possível escrever os arquivo");
         }
         return fullName;
     }
