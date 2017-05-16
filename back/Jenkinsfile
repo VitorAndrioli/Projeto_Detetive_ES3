@@ -16,6 +16,8 @@ node {
 
 	stage('Deploy') {
 		echo "Deploying..."
+		checkout scm
+		unstash 'working-copy'
 		sh "back/install.sh"
 	}
 }
