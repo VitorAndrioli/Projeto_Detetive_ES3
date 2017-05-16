@@ -12,12 +12,7 @@ node {
 		def mvnHome = tool 'maven'
 		sh "${mvnHome}/bin/mvn -f back/pom.xml package"
 		archiveArtifacts artifacts: 'back/**/target/*.jar', fingerprint: true
-	}
-
-	stage('Deploy') {
 		echo "Deploying..."
-		checkout scm
-		unstash 'working-copy'
 		sh "back/install.sh"
 	}
 }
