@@ -1,0 +1,59 @@
+public class Partida{
+	
+		public Jogador meuJogador {get;set;}
+	
+		//Coleção de todos os jogadores
+		public Jogador[] jogadores {get;set;}
+		
+		//Imagem que de fundo do tema da partida
+		public string imagemFundoPath {get;set;}
+		
+		//Cor hexadecimal
+		public string corDaBorda {get;set;}
+		
+		//Objeto de controle
+		pubic BarraAnotacao barraAnotacao {get;set;}
+	
+}
+
+public class Jogador{
+
+	pubic int id {get;set;}
+	
+	pubic string nome {get;set;}
+	
+	//Caminho da imagem para ser exibida na tag img
+	public string src {get;set;}	
+	
+	//Array de inteiros de 2 posições, indice 0 = linha e indice 1 = coluna, sendo a 1 posicao em [1,1]	
+	pubic int[2] posicao {get;set;}
+		
+}
+
+public class BarraAnotacao{
+
+	public Carta[] suspeitos{get;set;}
+		
+	public Carta[] armas {get;set;}
+		
+	public Carta[] locais {get;set;}
+	
+}
+
+
+public class Carta{
+	
+	public int id {get;set}
+	
+	public strintg nome {get;set; }
+	
+	//Caminho da imagem para ser exibida na tag img
+	public string src {get;set;}
+	
+	//Verdadeiro se a carta pertence ao jogador
+	public bool minhaCarta {get;set;}
+	
+	//Variavel de controle se o jogador anotou essa carta ou não
+	public bool selecionada {get;set;}
+	
+}
