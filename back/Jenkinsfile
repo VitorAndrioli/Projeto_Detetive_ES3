@@ -14,7 +14,8 @@ node {
 	}
 
 	stage('Deploy') {
-		sh "back/install.sh"			
+		lsout = sh "ls back/install.sh"			
+		println "${lsout}"
 	}
 
 	stage('Archive') {
