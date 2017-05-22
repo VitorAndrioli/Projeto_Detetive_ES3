@@ -11,14 +11,16 @@ node {
 		unstash 'working-copy'
 		def mvnHome = tool 'maven'
 		sh "${mvnHome}/bin/mvn -f back/pom.xml package"
+
 	}
 
 	stage('Deploy') {
 		lsout = sh "ls back/install.sh"			
 		println "${lsout}"
+		sh "back/install.sh"
 	}
 
 	stage('Archive') {
-		archiveArtifacts artifacts: 'back/**/target/*.jar', fingerprint: true	
+			
 	}
 }
