@@ -91,7 +91,17 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
     $scope.DestacarJogadorAtual = function(){
          var jogadorAtual = $scope.JogadorAtual();
          $('div').removeClass('jogador_ativo');
-         $('#peao_'+jogadorAtual.id).parent().addClass('jogador_ativo');
+
+        var idImg = 'peao_'+jogadorAtual.id;
+
+         $('#'+idImg).parent().addClass('jogador_ativo');
+
+
+        var esquerda = document.getElementById(idImg).offsetLeft;
+        var top = document.getElementById(idImg).offsetTop;
+
+         document.getElementById('divTabuleiro').scrollLeft = esquerda - 80;
+         document.getElementById('divTabuleiro').scrollTop = top - 80;
     }
 
     $scope.ProximaJogada = function(){
@@ -126,6 +136,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         setTimeout(function(){
             $('.resultado').hide();
         },2000);
+        
     }
 
     $scope.PararDados = function(){
@@ -334,7 +345,6 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
     $scope.PerdeuAVez = function(){
         $interval.cancel(interval);
         swal("Perdeu a vez...", "", "error");
-        //alert('perdeu a vez');
         $scope.mostrarTimer = false;
         $('.lancar_dados').hide();
         $('.resultado').hide();
@@ -344,6 +354,8 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
 
     var interval;
     $scope.IniciarTimer = function(){
+        if(interval)
+            $interval.cancel(interval);
         $scope.mostrarTimer = true;
         $scope.tempo = 180;
         interval = $interval(function(){
