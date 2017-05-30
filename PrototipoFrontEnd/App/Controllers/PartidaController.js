@@ -1,4 +1,4 @@
-detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval',function ($scope, DetetiveApi,$interval) {        
+detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval',function ($scope, DetetiveApi,$interval) {
 
     $scope.numeroJogadas = 0;
     $scope.palpite = {};
@@ -21,7 +21,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         var conteudo = new Array();
         conteudo.push('#divTabuleiro {');
         conteudo.push('background-image: url("' + imagemDoFundo + '");');
-        conteudo.push('background-repeat: no-repeat;');
+        conteudo.push('background-repeat: repeat;');
         conteudo.push('background-size: 100%;}');
 
         conteudo.push(" .item_tab {border: 1px solid " + corBordas + ";}");
@@ -32,7 +32,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
 
         $('#styleDynamic').html(conteudo.join(''));
     }
-    
+
     $scope.PosicionarJogadores = function(jogadores){
       for(var i = 0; i < jogadores.length; i++){
           var jogador = jogadores[i];
@@ -58,7 +58,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         var nomeObj = ['suspeitos','armas','locais'];
 
         var itensAnotacao = $scope.partida.barraAnotacao[nomeObj[tipo - 1]];
-        
+
         var item = Enumerable.from(itensAnotacao).singleOrDefault(function(x){
             return x.carta.id == id;
         });
@@ -66,7 +66,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         item.selecionado = true;
         item.minhaCarta = true;
     }
-    
+
     DetetiveApi.PegarDadosPartida(1,function(result){
         var partida = result;
         $scope.partida = partida;
@@ -91,19 +91,29 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
     $scope.DestacarJogadorAtual = function(){
          var jogadorAtual = $scope.JogadorAtual();
          $('div').removeClass('jogador_ativo');
-         $('#peao_'+jogadorAtual.id).parent().addClass('jogador_ativo');
+
+        var idImg = 'peao_'+jogadorAtual.id;
+
+         $('#'+idImg).parent().addClass('jogador_ativo');
+
+
+        var esquerda = document.getElementById(idImg).offsetLeft;
+        var top = document.getElementById(idImg).offsetTop;
+
+         document.getElementById('divTabuleiro').scrollLeft = esquerda - 80;
+         document.getElementById('divTabuleiro').scrollTop = top - 80;
     }
 
     $scope.ProximaJogada = function(){
         $scope.MoverListaJogadores();
-        $scope.DestacarJogadorAtual();       
-        $scope.RemoverAcaoAndar();   
+        $scope.DestacarJogadorAtual();
+        $scope.RemoverAcaoAndar();
         $scope.AbrirModalLancarDados();
         $scope.IniciarTimer();
     }
 
     $scope.AbrirModalLancarDados = function(){
-        $('.lancar_dados').show();        
+        $('.lancar_dados').show();
     }
 
     $scope.FecharModalLancarDados = function(){
@@ -121,11 +131,12 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         return valor1 + valor2;
     }
 
-    $scope.AbrirModalNumeroJogadas = function(){ 
+    $scope.AbrirModalNumeroJogadas = function(){
         $('.resultado').show();
         setTimeout(function(){
             $('.resultado').hide();
         },2000);
+        
     }
 
     $scope.PararDados = function(){
@@ -159,7 +170,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
             var row = disponibilidades[i].row;
             var col = disponibilidades[i].col;
             var div = $('#'+row+'_'+col);
-            
+
             if($scope.PossoAndarNaCasa(div))
                 div.addClass('casaDispo');
 
@@ -168,10 +179,10 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
 
     $scope.mostrarCaminhosDisponiveis = function(){
         var jogadorAtual = $scope.JogadorAtual();
-        
+
         if(jogadorAtual.casasParaAndar == undefined){
             jogadorAtual._posicao = jogadorAtual.posicao;
-        }       
+        }
 
         $scope.MostrarCasasDisponiveisParaAndar(jogadorAtual.posicao);
         $scope.HabilitarClickAndar();
@@ -183,7 +194,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
             $scope.RemoverAcaoAndar();
 
             var div = $(this);
-            
+
             if($scope.PosicaoEhPorta(div)){
                 return;
             }
@@ -199,7 +210,8 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
             if($scope.numeroJogadas > 0){
                 $scope.mostrarCaminhosDisponiveis();
             }else{
-                alert('Sua vez acabou');
+              swal("Sua vez acabou!", "", "warning");
+                //alert('Sua vez acabou');
                 $scope.DesativarTimer();
             }
         });
@@ -208,7 +220,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
     $scope.DeslocarImg = function(){
         var jogadorAtual = $scope.JogadorAtual();
         var id = '#peao_'+jogadorAtual.id;
-        
+
         var img = $(id);
         img.parent().empty();
 
@@ -242,7 +254,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
     }
 
     $scope.JogadorPodeFazerAcusacao = function(){
-        
+
     }
 
     $scope.AbrirModalPalpite = function(){
@@ -258,26 +270,56 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         return (
             $scope.palpite.suspeito == undefined ||
             $scope.palpite.arma == undefined ||
-            $scope.palpite.local == undefined 
+            $scope.palpite.local == undefined
         );
     }
 
     $scope.PosicaoEhPorta = function(div){
         if(div.hasClass('porta') && $scope.numeroJogadas > 1){
-            var resultado = confirm('Deseja entrar?');
-            if(resultado){
-                $scope.RemoverAcaoAndar();
-                $scope.numeroJogadas = 0;
 
-                var local = div.attr('comodo');
-                var posicao = div.attr('id').split('_');
-                var jogadorAtual = $scope.JogadorAtual();
-                jogadorAtual.posicao = [+posicao[0], +posicao[1]];
-                $scope.PosicionarImgNoComodo(local);
-                $scope.AbrirModalPalpite();
+          swal({
+            title: "Deseja entrar?",
+            //text: "You will not be able to recover this imaginary file!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            cancelButtonText: "Não",
+            confirmButtonText: "Sim",
+            closeOnConfirm: true
+          },
+          function (isConfirm){
+            if(isConfirm){
+              $scope.RemoverAcaoAndar();
+              $scope.numeroJogadas = 0;
 
-                return true;
-            }
+              var local = div.attr('comodo');
+              var posicao = div.attr('id').split('_');
+              var jogadorAtual = $scope.JogadorAtual();
+              jogadorAtual.posicao = [+posicao[0], +posicao[1]];
+              $scope.PosicionarImgNoComodo(local);
+              $scope.AbrirModalPalpite();
+
+              return true;
+          }}
+        );
+
+            // var resultado = confirm('Deseja entrar?');
+            // //var resultado =
+            //
+            // if(resultado){
+            //     $scope.RemoverAcaoAndar();
+            //     $scope.numeroJogadas = 0;
+            //
+            //     var local = div.attr('comodo');
+            //     var posicao = div.attr('id').split('_');
+            //     var jogadorAtual = $scope.JogadorAtual();
+            //     jogadorAtual.posicao = [+posicao[0], +posicao[1]];
+            //     $scope.PosicionarImgNoComodo(local);
+            //     $scope.AbrirModalPalpite();
+            //
+            //     return true;
+            // }
+
             return false;
         }
         return false;
@@ -286,7 +328,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
     $scope.PossoAndarNaCasa = function(div){
         if(div.attr('id') == undefined)
             return false;
-        
+
         var classes = div.attr('class').split(' ');
 
         for(var i = 0; i< classes.length;i++){
@@ -299,10 +341,10 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
 
          return true;
     }
-   
+
     $scope.PerdeuAVez = function(){
         $interval.cancel(interval);
-        alert('perdeu a vez');
+        swal("Perdeu a vez...", "", "error");
         $scope.mostrarTimer = false;
         $('.lancar_dados').hide();
         $('.resultado').hide();
@@ -312,6 +354,8 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
 
     var interval;
     $scope.IniciarTimer = function(){
+        if(interval)
+            $interval.cancel(interval);
         $scope.mostrarTimer = true;
         $scope.tempo = 180;
         interval = $interval(function(){

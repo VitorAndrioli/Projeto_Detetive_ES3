@@ -24,48 +24,50 @@ detetiveApp.factory('DetetiveApi',[function(){
              id:1,
             nome:'Dona Branca',
             src:'Imagens/padrao/personagens/Dona_Branca.png',
-            posicao:[1,8]
+            posicao:[1,9]
         },
         {
             id:2,
             nome:'Dona Violeta',
             src:'Imagens/padrao/personagens/Dona_Violeta.png',
-            posicao:[1,9]
+            posicao:[1,18]
         },
         {
             id:3,
             nome:'Mordomo James',
             src:'Imagens/padrao/personagens/Mordomo_James.png',
-            posicao:[1,10]
+            posicao:[8,25]
         },
         {
             id:4,
             nome:'Sargento Bigode',
             src:'Imagens/padrao/personagens/Sargento_Bigode.png',
-            posicao:[1,17]
+            posicao:[19,25]
         },
         {
             id:5,
             nome:'Senhor Marinho',
             src:'Imagens/padrao/personagens/Senhor_Marinho.png',
-            posicao:[1,18]
+            posicao:[25,18]
         },
         {
             id:6,
             nome:'Senhorita Rosa',
             src:'Imagens/padrao/personagens/Senhorita_Rosa.png'
             ,
-            posicao:[1,19]
+            posicao:[25,8]
         },
         {
             id:7,
             nome:'Sergio Soturno',
-            src:'Imagens/padrao/personagens/Sergio_Soturno.png'
+            src:'Imagens/padrao/personagens/Sergio_Soturno.png',
+            posicao:[20,1]
         },
         {
             id:8,
             nome:'Tony Gourmet',
-            src:'Imagens/padrao/personagens/Tony_Gourmet.png'
+            src:'Imagens/padrao/personagens/Tony_Gourmet.png',
+            posicao:[6,1]
         }];
 
         return jogadores;
