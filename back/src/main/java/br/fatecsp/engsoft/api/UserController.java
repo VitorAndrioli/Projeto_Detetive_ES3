@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.fatecsp.engsoft.api.exceptions.UserNotFound;
 import br.fatecsp.engsoft.domain.UserRequest;
 import br.fatecsp.engsoft.domain.UserResponse;
 import br.fatecsp.engsoft.service.UserService;
@@ -24,6 +25,12 @@ public class UserController extends Controller{
 	public UserResponse register(@RequestBody @Valid UserRequest user, BindingResult result){
 		verifyInvalidParam(result);
 		return userService.register(user);
+	}
+	
+	@RequestMapping(value="login",method = RequestMethod.POST)
+	public UserResponse login(@RequestBody @Valid UserRequest user,BindingResult result) throws UserNotFound{
+		verifyInvalidParam(result);
+		return userService.login(user);
 	}
 	
 }
