@@ -18,7 +18,6 @@ public class User {
 	private Long id;
 	private String username;
 	private String password;
-	private String token;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "users_roles", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
