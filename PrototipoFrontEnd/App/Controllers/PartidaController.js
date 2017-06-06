@@ -354,16 +354,30 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
 
     var interval;
     $scope.IniciarTimer = function(){
-        if(interval)
+        if(interval) {
             $interval.cancel(interval);
+        }
+
+        var tempo = 180;
+
         $scope.mostrarTimer = true;
-        $scope.tempo = 180;
+        var minutos = Math.floor(tempo / 60);
+        var segundos = tempo - minutos * 60;
+        $scope.timer = ("0" + minutos).slice(-2) + ":" + ("0" + segundos).slice(-2);
+            
         interval = $interval(function(){
-            $scope.tempo -= 1;
-            if($scope.tempo < 0){
+            
+            tempo -= 1;
+
+            if(tempo == 0){
                 $scope.PerdeuAVez();
             }
-        },1000);
+            
+            var minutos = Math.floor(tempo / 60);
+            var segundos = tempo - minutos * 60;
+            $scope.timer = ("0" + minutos).slice(-2) + ":" + ("0" + segundos).slice(-2);
+            
+        }, 1000);
     }
 
 }]);
