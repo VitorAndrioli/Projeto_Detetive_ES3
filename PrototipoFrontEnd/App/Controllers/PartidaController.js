@@ -146,35 +146,78 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         $scope.mostrarCaminhosDisponiveis();
     }
 
-    $scope.MostrarCasasDisponiveisParaAndar = function(posicao){
-        var disponibilidades = [
-            {
-                row: posicao[0] - 1,
-                col: posicao[1]
-            },
-            {
-                row: posicao[0] + 1,
-                col: posicao[1]
-            },
-            {
-                row: posicao[0] ,
-                col: posicao[1] - 1
-            },
-            {
-                row: posicao[0] ,
-                col: posicao[1] + 1
-            }
-        ];
+    $scope.visitedNodes = [];
+    $scope.disponibiliddes = [];
 
-        for(var i = 0;i < disponibilidades.length;i++){
-            var row = disponibilidades[i].row;
-            var col = disponibilidades[i].col;
+
+    $scope.MostrarCasasDisponiveisParaAndar = function(posicao){
+
+        $scope.disponibilidades = [];
+        $scope.visitedNodes = [];
+        $scope.distancia = 0;
+        $scope.checarAdjacentes(posicao);
+
+        for(var i = 0;i < $scope.disponibilidades.length;i++){
+            var row = $scope.disponibilidades[i].row;
+            var col = $scope.disponibilidades[i].col;
+
             var div = $('#'+row+'_'+col);
 
             if($scope.PossoAndarNaCasa(div))
                 div.addClass('casaDispo');
 
         }
+    }
+
+    $scope.eCaminho = function(posicao) {
+
+        if ((posicao[0] < 0 || posicao[0] > 25) && (posicao[1] < 0 || posicao[1] > 25)) {
+            return false;
+        } else {
+            return $("#" + posicao[0] + "_" + posicao[1]).hasClass("caminho") || $("#" + posicao[0] + "_" + posicao[1]).hasClass("porta");    
+        }
+
+    }
+
+    $scope.distancia;
+    
+    function Node(id, posicao, dist) {
+        this.id = id;
+        this.posicao = posicao;
+        this.dist = dist;
+
+    }
+
+    $scope.adjs = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+    $scope.checarAdjacentes = function(posicao) {
+        if (!$scope.eCaminho(posicao)) return; // retorna se não for um camiho válido
+        if ($scope.distancia > $scope.numeroJogadas) return; // retorna se já tiver excedido o número de jogadas
+
+        var posicaoIndex = (posicao[0] - 1) * 25 + posicao[1];
+        var node = new Node(posicaoIndex, posicao, $scope.distancia);
+        
+        var nodeInArray = $.grep($scope.visitedNodes, function(e) { return e.id == posicaoIndex; });
+
+        if (nodeInArray.length > 0 && nodeInArray[0].dist <= $scope.distancia) {
+            return;  
+        } else if (nodeInArray.length > 0) {
+            nodeInArray[0].dist = $scope.distancia;
+            node = nodeInArray[0];
+        } 
+        
+        $scope.visitedNodes.push(node);
+        $scope.disponibilidades.push({row: node.posicao[0], col: node.posicao[1]});    
+
+        $scope.distancia++;
+                                   
+        for (var i=0; i<$scope.adjs.length; i++) {
+            var adjNode = [posicao[0] + $scope.adjs[i][0], posicao[1] + $scope.adjs[i][1]];
+            if (node.dist < $scope.numeroJogadas) {
+                $scope.checarAdjacentes(adjNode);
+            }
+        }
+        $scope.distancia--;
+    
     }
 
     $scope.mostrarCaminhosDisponiveis = function(){
@@ -199,21 +242,15 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
                 return;
             }
 
-            $scope.numeroJogadas -= 1;
-
             var id = div.attr('id').split('_');
             var jogadorAtual = $scope.JogadorAtual();
             jogadorAtual.posicao = [+id[0], +id[1]];
 
             $scope.DeslocarImg();
 
-            if($scope.numeroJogadas > 0){
-                $scope.mostrarCaminhosDisponiveis();
-            }else{
-              swal("Sua vez acabou!", "", "warning");
-                //alert('Sua vez acabou');
-                $scope.DesativarTimer();
-            }
+            // swal("Sua vez acabou!", "", "warning");
+            $scope.DesativarTimer();
+            
         });
     }
 
