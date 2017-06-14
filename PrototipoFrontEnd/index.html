@@ -193,6 +193,21 @@
 <div class="row" style="background-color: #f0f8ff">
   <div id="divTabuleiro" class="pull-left dragscroll">
     <div class="campo">
+
+      <div id="jogador{{$index}}" class="jogador" ng-repeat="jogador in jogadores track by $index"
+    style="top: {{jogador.posicao[0]*50}}px; left: {{jogador.posicao[1]*50}}px;">
+        <img ng-src={{jogador.src}} />
+      </div>
+
+      <!-- <div class="linha" ng-repeat="row in board track by $index">
+        
+        <div id="{{$parent.$parent.$index + 1}}_{{$index + 1}}" ng-if="cell == 0" class="item_tab caminho" ng-repeat="cell in row track by $index">
+
+        <div id="{{$parent.$parent.$index + 1}}_{{$index + 1}}" ng-if="cell != 0" class="item_tab caminho" ng-repeat="cell in row track by $index">
+            
+        </div>
+      </div>
+ -->
       <div class="linha">
         <div id="1_1" class="item_tab local1 posicao11"></div>
         <div id="1_2" class="item_tab local1 posicao12"></div>
@@ -978,7 +993,6 @@
 </div>
 
 <div class="dados" ng-show="mostrarTimer">
-  <span ng-if="numeroJogadas != 0">{{numeroJogadas}}</span>
   <i class="fa fa-clock-o" aria-hidden="true"></i> {{timer}}
 </div>
 

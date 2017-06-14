@@ -33,20 +33,24 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         $('#styleDynamic').html(conteudo.join(''));
     }
 
+    $scope.jogadores;
     $scope.PosicionarJogadores = function(jogadores){
-      for(var i = 0; i < jogadores.length; i++){
+        $scope.jogadores = jogadores;
+      
+        for(var i = 0; i < jogadores.length; i++){
           var jogador = jogadores[i];
           if(jogador.posicao){
+            // $("#jogador" + i).css({top: jogador.posicao[0]*50, left: jogador.posicao[1]*50});
 
-              var id = jogador.posicao.join('_');
+            // var id = jogador.posicao.join('_');
 
-              var img = document.createElement('img');
-              img.src = jogador.src;
-              img.className = 'peao';
-              img.id = 'peao_'+jogador.id;
-              $('#'+id).html(img);
+            // var img = document.createElement('img');
+            // img.src = jogador.src;
+            // img.className = 'peao';
+            // img.id = 'peao_'+jogador.id;
+            // $('#'+id).html(img);
           }
-      }
+        }
     }
 
     $scope.MoverListaJogadores = function(){
@@ -89,19 +93,24 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
     };
 
     $scope.DestacarJogadorAtual = function(){
-         var jogadorAtual = $scope.JogadorAtual();
-         $('div').removeClass('jogador_ativo');
+        var jogadorAtual = $scope.JogadorAtual();
+        
+        // $('div').removeClass('jogador_ativo');
+        // var idImg = 'peao_'+jogadorAtual.id;
+        // $('#'+idImg).parent().addClass('jogador_ativo');
+        // var esquerda = document.getElementById(idImg).offsetLeft;
+        // var top = document.getElementById(idImg).offsetTop;
 
-        var idImg = 'peao_'+jogadorAtual.id;
+        $('.jogador_ativo').removeClass('jogador_ativo');
 
-         $('#'+idImg).parent().addClass('jogador_ativo');
+        $('#jogador0').addClass('jogador_ativo');
 
 
-        var esquerda = document.getElementById(idImg).offsetLeft;
-        var top = document.getElementById(idImg).offsetTop;
+        var esquerda = document.getElementById("jogador0").offsetLeft;
+        var top = document.getElementById("jogador0").offsetTop;
 
-         document.getElementById('divTabuleiro').scrollLeft = esquerda - 80;
-         document.getElementById('divTabuleiro').scrollTop = top - 80;
+        document.getElementById('divTabuleiro').scrollLeft = esquerda - 80;
+        document.getElementById('divTabuleiro').scrollTop = top - 80;
     }
 
     $scope.ProximaJogada = function(){
@@ -113,6 +122,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
     }
 
     $scope.AbrirModalLancarDados = function(){
+
         $('.lancar_dados').show();
     }
 
@@ -179,15 +189,13 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
 
     }
 
-    $scope.distancia;
-    
     function Node(id, posicao, dist) {
         this.id = id;
         this.posicao = posicao;
         this.dist = dist;
-
     }
 
+    $scope.distancia;
     $scope.adjs = [[0, 1], [1, 0], [0, -1], [-1, 0]];
     $scope.checarAdjacentes = function(posicao) {
         if (!$scope.eCaminho(posicao)) return; // retorna se não for um camiho válido
@@ -253,6 +261,11 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
             
         });
     }
+
+    $scope.board = [[0, 0, 1], [0, 2, 0], [1, 2, 3], [0, 0, 0]];
+
+    $scope.list = [1, 2];
+    $scope.list2 = [1, 2];
 
     $scope.DeslocarImg = function(){
         var jogadorAtual = $scope.JogadorAtual();

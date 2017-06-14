@@ -9,7 +9,7 @@
 }
 
 .porta {
-    background: brown;
+    background: brown !important; 
 }
 
 .pl {
@@ -32,6 +32,8 @@
     overflow: auto;
     padding: 50px;
     cursor:move;
+    position: relative;
+    z-index: 0;
 }
 
 .linha {
@@ -321,4 +323,25 @@ body {
 
 .click{
     cursor: pointer;
+}
+
+.lancar_dados, .resultado {
+    z-index: 10;
+}
+
+.jogador {
+    width: 46px;
+    height: 46px;
+    position: absolute;
+    text-align: center;
+    margin: 2px;
+}
+
+.jogador.jogador_ativo {
+    background-color: red;
+}
+
+.jogador img {
+    max-width: 100%;
+    max-height: 100%;
 }
