@@ -39,17 +39,6 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
       
         for(var i = 0; i < jogadores.length; i++){
           var jogador = jogadores[i];
-          if(jogador.posicao){
-            // $("#jogador" + i).css({top: jogador.posicao[0]*50, left: jogador.posicao[1]*50});
-
-            // var id = jogador.posicao.join('_');
-
-            // var img = document.createElement('img');
-            // img.src = jogador.src;
-            // img.className = 'peao';
-            // img.id = 'peao_'+jogador.id;
-            // $('#'+id).html(img);
-          }
         }
     }
 
@@ -95,16 +84,8 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
     $scope.DestacarJogadorAtual = function(){
         var jogadorAtual = $scope.JogadorAtual();
         
-        // $('div').removeClass('jogador_ativo');
-        // var idImg = 'peao_'+jogadorAtual.id;
-        // $('#'+idImg).parent().addClass('jogador_ativo');
-        // var esquerda = document.getElementById(idImg).offsetLeft;
-        // var top = document.getElementById(idImg).offsetTop;
-
         $('.jogador_ativo').removeClass('jogador_ativo');
-
         $('#jogador0').addClass('jogador_ativo');
-
 
         var esquerda = document.getElementById("jogador0").offsetLeft;
         var top = document.getElementById("jogador0").offsetTop;
@@ -114,6 +95,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
     }
 
     $scope.ProximaJogada = function(){
+
         $scope.MoverListaJogadores();
         $scope.DestacarJogadorAtual();
         $scope.RemoverAcaoAndar();
@@ -250,38 +232,26 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
                 return;
             }
 
-            var id = div.attr('id').split('_');
             var jogadorAtual = $scope.JogadorAtual();
-            jogadorAtual.posicao = [+id[0], +id[1]];
 
-            $scope.DeslocarImg();
+            var clickedPosition = div.attr('id').split('_');
+            
+            var top = clickedPosition[0] * 50;
+            var left = clickedPosition[1] * 50;
 
-            // swal("Sua vez acabou!", "", "warning");
-            $scope.DesativarTimer();
+            $('.jogador_ativo').removeClass('jogador_ativo');
+            $("#jogador0").animate({ top: top, left: left }, 500, function() {
+                $scope.DesativarTimer();
+                jogadorAtual.posicao = [+clickedPosition[0], +clickedPosition[1]];
+            } );
             
         });
-    }
-
-    $scope.board = [[0, 0, 1], [0, 2, 0], [1, 2, 3], [0, 0, 0]];
-
-    $scope.list = [1, 2];
-    $scope.list2 = [1, 2];
-
-    $scope.DeslocarImg = function(){
-        var jogadorAtual = $scope.JogadorAtual();
-        var id = '#peao_'+jogadorAtual.id;
-
-        var img = $(id);
-        img.parent().empty();
-
-        var novaPosicao = jogadorAtual.posicao.join('_');
-        $('#'+novaPosicao).append(img);
     }
 
     $scope.DesativarTimer = function(){
         $interval.cancel(interval);
         $scope.mostrarTimer = false;
-        $scope.ProximaJogada();
+        // $scope.ProximaJogada();
     }
 
     $scope.PegarLocalComodo = function(local){
