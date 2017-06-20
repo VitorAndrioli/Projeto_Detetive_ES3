@@ -1,7 +1,7 @@
 detetiveApp.factory('DetetiveApi',[function(){
     var app  = {};
 
- function MinhasCartas(array, indice){
+    function MinhasCartas(array, indice) {
         var retorno = new Array();
         for(var i = 0; i< array.length; i++){
             var item = {
@@ -225,11 +225,9 @@ detetiveApp.factory('DetetiveApi',[function(){
             nome:'Boate',
             src:'Imagens/padrao/locais/boate.png' 
         }
-    ];;
+    ];
 
-   
-
-        app.PegarDadosPartida = function(id, callbackSucesso, callbackErro){
+    app.PegarDadosPartida = function(id, callbackSucesso, callbackErro){
 
         var partida = {};
 

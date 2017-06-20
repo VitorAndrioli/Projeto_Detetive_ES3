@@ -31,6 +31,8 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         }
 
         $('#styleDynamic').html(conteudo.join(''));
+
+
     }
 
     $scope.jogadores;
@@ -60,20 +62,26 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         item.minhaCarta = true;
     }
 
-    DetetiveApi.PegarDadosPartida(1,function(result){
-        var partida = result;
-        $scope.partida = partida;
-        console.log(partida);
+    $scope.boardGrid;
 
-        $scope.DefinirEstilo(
-            partida.imagemFundoPath,
-            partida.corDaBorda,
-            partida.barraAnotacao.locais
-        );
+    $scope.initBoard = function() {
+        var grid = []
+        for (var i=1; i<=25; i++) {
+            var row = [];
+            for (var j=1; j<=25; j++) {
+                if ($scope.eCaminho([i, j])) {
+                    row.push(1);
+                } else {
+                    row.push(0)
+                }
+            }
+            grid.push(row);
 
+        }
 
-        $scope.PosicionarJogadores(partida.jogadores);
-    })
+        $scope.boardGrid = new Graph(grid);
+    }
+
 
     $scope.switcheryOptions = {
         color: 'green',
@@ -139,9 +147,6 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
     }
 
     $scope.visitedNodes = [];
-    $scope.disponibiliddes = [];
-
-
     $scope.MostrarCasasDisponiveisParaAndar = function(posicao){
 
         $scope.disponibilidades = [];
@@ -157,7 +162,6 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
 
             if($scope.PossoAndarNaCasa(div))
                 div.addClass('casaDispo');
-
         }
     }
 
@@ -210,6 +214,23 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
     
     }
 
+    $scope.getPath = function(pos1, pos2) {
+
+        var path = [];
+        
+        var start = $scope.boardGrid.grid[pos1[0]-1][pos1[1]-1];
+        var end = $scope.boardGrid.grid[pos2[0]-1][pos2[1]-1];
+        var result = astar.search($scope.boardGrid, start, end);
+
+
+        for (var i=0; i<result.length; i++) {
+            path.push([result[i].x+1, result[i].y+1])
+        }
+
+        return path;
+
+    }
+
     $scope.mostrarCaminhosDisponiveis = function(){
         var jogadorAtual = $scope.JogadorAtual();
 
@@ -221,30 +242,36 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
         $scope.HabilitarClickAndar();
     }
 
-    $scope.caminho = [];
     $scope.HabilitarClickAndar = function(){
         $('.casaDispo').click(function(){
             $scope.RemoverAcaoAndar();
 
             var div = $(this);
 
-            if($scope.PosicaoEhPorta(div)){
-                return;
-            }
-
             var jogadorAtual = $scope.JogadorAtual();
 
             var clickedPosition = div.attr('id').split('_');
             
-            var top = clickedPosition[0] * 50;
-            var left = clickedPosition[1] * 50;
+            var path = $scope.getPath(jogadorAtual.posicao, clickedPosition.map(Number));
 
             $('.jogador_ativo').removeClass('jogador_ativo');
-            $("#jogador0").animate({ top: top, left: left }, 500, function() {
-                $scope.DesativarTimer();
-                jogadorAtual.posicao = [+clickedPosition[0], +clickedPosition[1]];
-            } );
+
+            for (var i=0; i<path.length; i++) {
+                var top = path[i][0] * 50;
+                var left = path[i][1] * 50;
             
+                if (i == (path.length-1)) {
+                    $("#jogador0").animate({ top: top, left: left }, 320, function() {
+                            $scope.DesativarTimer();
+                            jogadorAtual.posicao = [+clickedPosition[0], +clickedPosition[1]];
+                            if($scope.PosicaoEhPorta(div)){
+                                return;
+                            }
+                    });
+                } else {
+                    $("#jogador0").animate({ top: top, left: left }, 320);
+                }
+            }
         });
     }
 
@@ -299,7 +326,6 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
 
           swal({
             title: "Deseja entrar?",
-            //text: "You will not be able to recover this imaginary file!",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
@@ -399,5 +425,21 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi','$interval'
             
         }, 1000);
     }
+
+    DetetiveApi.PegarDadosPartida(1, function(result){
+        var partida = result;
+        $scope.partida = partida;
+
+        $scope.DefinirEstilo(
+            partida.imagemFundoPath,
+            partida.corDaBorda,
+            partida.barraAnotacao.locais
+        );
+
+        $scope.PosicionarJogadores(partida.jogadores);
+        $scope.initBoard();
+
+
+    })
 
 }]);
